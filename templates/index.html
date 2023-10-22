@@ -63,7 +63,7 @@
     <form action="/" method="post" id="flightParametersForm">
         <div>
             <label for="windDirection">Wind Direction (degrees):</label>
-            <input type="number" id="windDirection" name="windDirection" required>
+            <input type="number" id="windDirection" name="windDirection" min="0" max="360" required>
         </div>
         <div>
             <label for="windSpeed">Wind Speed (knots):</label>
@@ -79,7 +79,7 @@
         </div>
         <div>
             <label for="safetyMargin">Safety Margin (0-1):</label>
-            <input type="number" id="safetyMargin" name="safetyMargin" min="0" max="1" step="0.01" required>
+            <input type="number" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" required>
         </div>
             <button id="selectAllBtn">Select All</button>
             <button id="deselectAllBtn">Deselect All</button>

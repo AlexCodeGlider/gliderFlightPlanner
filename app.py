@@ -145,7 +145,7 @@ def index():
         wind_speed = float(request.form['windSpeed'])
         glide_ratio = float(request.form['glideRatio'])
         vg = float(request.form['vg'])
-        safety_margin = float(request.form['safetyMargin'])
+        safety_margin = float(request.form['safetyMargin']) / 100
 
         polygon_altitudes = [
             3000, 
