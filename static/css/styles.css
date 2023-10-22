@@ -7,3 +7,7 @@ h2 {
     font-family: 'Westminster', sans-serif; /* Fallback to sans-serif if Westminster doesn't load */
     font-size: 70px;
 }
+
+body {
+    background-color: #F4EAD5;
+}
