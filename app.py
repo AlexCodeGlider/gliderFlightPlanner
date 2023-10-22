@@ -72,16 +72,14 @@ def haversine(lon1, lat1, d, brng):
     return [lat2, lon2]
 
 #@title ## Create a new map
-def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations):
+def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polygon_altitudes):
     m = folium.Map(location=[lat1, lon1], tiles=None, zoom_start=10)
     folium.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Satellite', overlay=False, control=True).add_to(m)
     folium.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Topographic', overlay=False, control=True).add_to(m)
     folium.TileLayer('https://wms.chartbundle.com/tms/1.0.0/sec/{z}/{x}/{y}.png?origin=nw', name='FAA Sectional Chart', attr="ChartBundle").add_to(m)
     folium.LayerControl().add_to(m)
 
-    altitudes = [3000, 5000, 7000, 9000, 11000, 13000, 15000]
-
-    for altitude in altitudes:
+    for altitude in polygon_altitudes:
         polygons_points = []
 
         for lat, lon, arrival_altitude, wind_speed, wind_direction in center_locations:
@@ -142,11 +140,40 @@ def index():
         # Extract selected rows from the table
         selected_rows = request.form.getlist('selectedRows[]')
         
-        # Center location
+        # Extract new form data
+        wind_direction = request.form['windDirection']
+        wind_speed = request.form['windSpeed']
+        glide_ratio = request.form['glideRatio']
+        vg = request.form['vg']
+        safety_margin = request.form['safetyMargin']
+
+        polygon_altitudes = [
+            3000, 
+            5000, 
+            7000, 
+            9000, 
+            11000, 
+            13000, 
+            15000
+            ]
+
+        center_locations =[]
+
+        for polygon_altitude in polygon_altitudes:
+            for row in data:
+                if row['ID'] in selected_rows:
+                    center_locations.append(
+                        (
+                            float(row['Latitude']), 
+                            float(row['Longitude']), 
+                            float(polygon_altitude), 
+                            float(wind_speed), 
+                            float(wind_direction)
+                            )
+                        )
+
+        # Zoom center location
         lat1, lon1 = (34.5614, -117.6045) # 46CN
-        glide_ratio = 40
-        safety_margin = 0.5
-        Vg = 51 # knots
 
         # Call plot_map() to generate map HTML string
         map_html = plot_map(
@@ -154,21 +181,10 @@ def index():
             lon1, 
             glide_ratio, 
             safety_margin, 
-            Vg, 
-            center_locations=selected_rows
-           # [
-           #     (34.5614, -117.6045, 3000, 10, 0), 
-           #     (34.5614, -117.6045, 5000, 10, 0), 
-           #     (34.5614, -117.6045, 7000, 10, 0), 
-           #     (34.5614, -117.6045, 9000, 10, 0), 
-           #     (34.5614, -117.6045, 11000, 10, 0), 
-           #     (34.5614, -117.6045, 13000, 10, 0), 
-           #     (34.5614, -117.6045, 15000, 10, 0)
-           #     ]
+            vg, 
+            center_locations=center_locations,
+            polygon_altitudes=polygon_altitudes
             )
-
-        # Return the generated output or redirect to another page
-        # For now, just redirecting back to the form. You can enhance this to display the generated map or any other result.
 
         return render_template("index.html", map_html=map_html)
 

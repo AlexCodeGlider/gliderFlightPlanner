@@ -53,6 +53,32 @@
 <body>
     <h2>Glider Flight Planner</h2>
 
+    <form action="/" method="post" id="flightParametersForm">
+        <div>
+            <label for="windDirection">Wind Direction (degrees):</label>
+            <input type="number" id="windDirection" name="windDirection" required>
+        </div>
+        <div>
+            <label for="windSpeed">Wind Speed (knots):</label>
+            <input type="number" id="windSpeed" name="windSpeed" required>
+        </div>
+        <div>
+            <label for="glideRatio">Glide Ratio:</label>
+            <input type="number" id="glideRatio" name="glideRatio" required>
+        </div>
+        <div>
+            <label for="vg">Vg (Best Glide Speed in knots):</label>
+            <input type="number" id="vg" name="vg" required>
+        </div>
+        <div>
+            <label for="safetyMargin">Safety Margin (0-1):</label>
+            <input type="number" id="safetyMargin" name="safetyMargin" min="0" max="1" step="0.01" required>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+    
     <!-- Add a button for form submission -->
     <button id="submitBtn">Submit Selected Locations</button>
 
