@@ -8,6 +8,14 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <!-- DataTables CSS and JS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
@@ -61,25 +69,25 @@
     <h2>Glider Flight Planner</h2>
 
     <form action="/" method="post" id="flightParametersForm">
-        <div>
+        <div class="form-group">
             <label for="windDirection">Wind Direction (degrees):</label>
-            <input type="number" id="windDirection" name="windDirection" min="0" max="360" required>
+            <input type="number" class="form-control" id="windDirection" name="windDirection" min="0" max="360" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="windSpeed">Wind Speed (knots):</label>
-            <input type="number" id="windSpeed" name="windSpeed" required>
+            <input type="number" class="form-control" id="windSpeed" name="windSpeed" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="glideRatio">Glide Ratio:</label>
-            <input type="number" id="glideRatio" name="glideRatio" required>
+            <input type="number" class="form-control" id="glideRatio" name="glideRatio" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="vg">Vg (Best Glide Speed in knots):</label>
-            <input type="number" id="vg" name="vg" required>
+            <input type="number" class="form-control" id="vg" name="vg" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="safetyMargin">Safety Margin (0-1):</label>
-            <input type="number" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" required>
+            <input type="number" class="form-control" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" required>
         </div>
             <button id="selectAllBtn">Select All</button>
             <button id="deselectAllBtn">Deselect All</button>
