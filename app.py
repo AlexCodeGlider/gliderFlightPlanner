@@ -72,7 +72,6 @@ def haversine(lon1, lat1, d, brng):
 
 #@title ## Create a new map
 def plot_map(lat1, lon1, lat2, lon2, glide_ratio, safety_margin, Vg, center_locations):
-    print(f"lat1: {lat1}, lon1: {lon1}, lat2: {lat2}, lon2: {lon2}")
     m = folium.Map(location=[lat1, lon1], tiles=None, zoom_start=10)
     folium.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Satellite', overlay=False, control=True).add_to(m)
     folium.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Topographic', overlay=False, control=True).add_to(m)
