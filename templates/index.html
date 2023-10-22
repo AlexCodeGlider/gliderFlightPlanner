@@ -1,0 +1,46 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glider Flight Planner</title>
+</head>
+<body>
+    <h2>Glider Flight Planner</h2>
+
+    <form action="/" method="post">
+        <label for="lat1">Location 1 Latitude:</label>
+        <input type="number" step="0.000001" name="lat1" value="34.4847167" required><br><br>
+        
+        <label for="lon1">Location 1 Longitude:</label>
+        <input type="number" step="0.000001" name="lon1" value="-117.8264528" required><br><br>
+        
+        <label for="lat2">Location 2 Latitude:</label>
+        <input type="number" step="0.000001" name="lat2" value="34.5614" required><br><br>
+        
+        <label for="lon2">Location 2 Longitude:</label>
+        <input type="number" step="0.000001" name="lon2" value="-117.6045" required><br><br>
+
+        <label for="glide_ratio">Glide Ratio:</label>
+        <input type="number" name="glide_ratio" value="40" required><br><br>
+
+        <label for="safety_margin">Safety Margin:</label>
+        <input type="number" step="0.01" min="0" max="0.9" name="safety_margin" value="0.5" required><br><br>
+
+        <label for="Vg">Best L/D Speed (in kts):</label>
+        <input type="number" name="Vg" value="51" required><br><br>
+
+        <!-- You can similarly add other parameters with their default values -->
+
+        <input type="submit" value="Generate Glide Plan">
+    </form>
+
+    <hr>
+
+    <div id="map">
+        {{ map_html | safe }}
+    </div>
+    
+</body>
+</html>
