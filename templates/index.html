@@ -26,6 +26,16 @@
                 style: 'multi' // Enable multi-row selection
             }
         });
+
+        // Handle "Select All" button click
+        $("#selectAllBtn").click(function() {
+            table.rows().select();
+        });
+
+        // Handle "Deselect All" button click
+        $("#deselectAllBtn").click(function() {
+            table.rows().deselect();
+        });
         
         // Handle form submission
         $("#submitBtn").click(function() {
@@ -45,7 +55,10 @@
 
     <!-- Add a button for form submission -->
     <button id="submitBtn">Submit Selected Locations</button>
-    
+
+    <button id="selectAllBtn">Select All</button>
+    <button id="deselectAllBtn">Deselect All</button>
+
     <!-- Create the table structure -->
     <table id="locationsTable" class="display">
         <thead>
