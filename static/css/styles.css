@@ -3,7 +3,7 @@
     src: url('/static/fonts/Westminster.ttf'); /* Adjust the path based on your directory structure */
 }
 
-h2 {
+h1 {
     font-family: 'Westminster', sans-serif; /* Fallback to sans-serif if Westminster doesn't load */
     font-size: 70px;
 }
