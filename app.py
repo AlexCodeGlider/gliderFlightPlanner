@@ -194,5 +194,9 @@ def index():
 
     return render_template("index.html", map_html=map_html, data=data)
 
+@app.route('/user-guide')
+def user_guide():
+    return render_template('user_guide.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
