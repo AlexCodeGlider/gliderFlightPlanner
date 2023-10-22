@@ -66,66 +66,66 @@
 </script>
 
 <body>
-    <h2>Glider Flight Planner</h2>
+    <div class="container">
+        <h2>Glider Flight Planner</h2>
 
-    <form action="/" method="post" id="flightParametersForm">
-        <div class="form-group">
-            <label for="windDirection">Wind Direction (degrees):</label>
-            <input type="number" class="form-control" id="windDirection" name="windDirection" min="0" max="360" required>
-        </div>
-        <div class="form-group">
-            <label for="windSpeed">Wind Speed (knots):</label>
-            <input type="number" class="form-control" id="windSpeed" name="windSpeed" required>
-        </div>
-        <div class="form-group">
-            <label for="glideRatio">Glide Ratio:</label>
-            <input type="number" class="form-control" id="glideRatio" name="glideRatio" required>
-        </div>
-        <div class="form-group">
-            <label for="vg">Vg (Best Glide Speed in knots):</label>
-            <input type="number" class="form-control" id="vg" name="vg" required>
-        </div>
-        <div class="form-group">
-            <label for="safetyMargin">Safety Margin (0-1):</label>
-            <input type="number" class="form-control" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" required>
-        </div>
-            <button id="selectAllBtn" class="btn btn-secondary">Select All</button>
-            <button id="deselectAllBtn" class="btn btn-secondary">Deselect All</button>
+        <form action="/" method="post" id="flightParametersForm">
+            <div class="form-group">
+                <label for="windDirection">Wind Direction (degrees):</label>
+                <input type="number" class="form-control" id="windDirection" name="windDirection" min="0" max="360" required>
+            </div>
+            <div class="form-group">
+                <label for="windSpeed">Wind Speed (knots):</label>
+                <input type="number" class="form-control" id="windSpeed" name="windSpeed" required>
+            </div>
+            <div class="form-group">
+                <label for="glideRatio">Glide Ratio:</label>
+                <input type="number" class="form-control" id="glideRatio" name="glideRatio" required>
+            </div>
+            <div class="form-group">
+                <label for="vg">Vg (Best Glide Speed in knots):</label>
+                <input type="number" class="form-control" id="vg" name="vg" required>
+            </div>
+            <div class="form-group">
+                <label for="safetyMargin">Safety Margin (0-1):</label>
+                <input type="number" class="form-control" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" required>
+            </div>
+                <button id="selectAllBtn" class="btn btn-secondary">Select All</button>
+                <button id="deselectAllBtn" class="btn btn-secondary">Deselect All</button>
+                <input type="submit" class="btn btn-primary" value="Submit">
 
-            <!-- Create the table structure -->
-            <table id="locationsTable" class="display">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Lat</th>
-                        <th>Long</th>
-                        <th>Altitude</th>
-                        <th>Type</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in data %}
-                    <tr>
-                        <td>{{ row.ID }}</td>
-                        <td>{{ row.Lat }}</td>
-                        <td>{{ row.Long }}</td>
-                        <td>{{ row.Altitude }}</td>
-                        <td>{{ row.Type }}</td>
-                        <td>{{ row.Name }}</td>
-                        <td>{{ row.Description }}</td>
-                        <td>{{ row.Category }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <input type="submit" class="btn btn-primary" value="Submit">
-        </div>
-    </form>
+                <!-- Create the table structure -->
+                <table id="locationsTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Lat</th>
+                            <th>Long</th>
+                            <th>Altitude</th>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                        <tr>
+                            <td>{{ row.ID }}</td>
+                            <td>{{ row.Lat }}</td>
+                            <td>{{ row.Long }}</td>
+                            <td>{{ row.Altitude }}</td>
+                            <td>{{ row.Type }}</td>
+                            <td>{{ row.Name }}</td>
+                            <td>{{ row.Description }}</td>
+                            <td>{{ row.Category }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
 
     <hr>
 
