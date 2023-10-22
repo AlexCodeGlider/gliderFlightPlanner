@@ -164,8 +164,8 @@ def index():
                 if row['ID'] in selected_rows:
                     center_locations.append(
                         (
-                            float(row['Latitude']), 
-                            float(row['Longitude']), 
+                            float(row['Lat']), 
+                            float(row['Long']), 
                             float(polygon_altitude), 
                             float(wind_speed), 
                             float(wind_direction)
