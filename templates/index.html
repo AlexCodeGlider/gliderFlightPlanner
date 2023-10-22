@@ -49,11 +49,30 @@
     </div>
     
 </body>
-<!-- Initialize DataTables -->
+<!-- Initialize DataTables with additional configurations -->
 <script>
     $(document).ready( function () {
         $('#locationsTable').DataTable({
-            // Add configurations if needed
+            pageLength: 10, // Number of rows per page
+            select: {
+                style: 'multi' // Enable multi-row selection
+            },
+            // Columns that should have search enabled. Adjust as needed.
+            columnDefs: [
+                { searchable: true, targets: [1, 2, 4, 5, 6, 7] }
+            ]
+        });
+        
+        // Handle form submission
+        $("#submitBtn").click(function() {
+            var selectedData = [];
+            var table = $('#locationsTable').DataTable();
+            var selectedRows = table.rows('.selected').data();
+            $.each(selectedRows, function(index, value) {
+                selectedData.push(value);
+            });
+            
+            // TODO: Send selectedData to the server using AJAX or form submission
         });
     } );
 </script>
