@@ -5,6 +5,7 @@ import numpy as np
 from math import radians, cos, sin, asin, sqrt, degrees, atan2
 from shapely.geometry import Point, Polygon, MultiPolygon
 from shapely.ops import unary_union
+import csv
 
 app = Flask(__name__)
 
@@ -71,7 +72,7 @@ def haversine(lon1, lat1, d, brng):
     return [lat2, lon2]
 
 #@title ## Create a new map
-def plot_map(lat1, lon1, lat2, lon2, glide_ratio, safety_margin, Vg, center_locations):
+def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations):
     m = folium.Map(location=[lat1, lon1], tiles=None, zoom_start=10)
     folium.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Satellite', overlay=False, control=True).add_to(m)
     folium.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Topographic', overlay=False, control=True).add_to(m)
@@ -124,42 +125,46 @@ def plot_map(lat1, lon1, lat2, lon2, glide_ratio, safety_margin, Vg, center_loca
                           html='<div style="font-size: 12pt; color: yellow; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">%s ft</div>' % (altitude),
                       )
                     ).add_to(m)
-    m.fit_bounds([[lat1, lon1], [lat2, lon2]])
     return m.get_root().render()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     map_html = ""
-    if request.method == "POST":
-        # Extract form values
-        lat1 = float(request.form.get('lat1', 34.4847167))
-        lon1 = float(request.form.get('lon1', -117.8264528))
-        lat2 = float(request.form.get('lat2', 34.5614))
-        lon2 = float(request.form.get('lon2', -117.6045))
-        glide_ratio = int(request.form.get('glide_ratio', 40))
-        safety_margin = float(request.form.get('safety_margin', 0.5))
-        Vg = int(request.form.get('Vg', 51))
+    data = []
 
-        # Here, add other form value extractions if needed
+    # Load data from CSV
+    with open('data/Crystal23.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            data.append(row)
+
+    if request.method == "POST":
+        # Extract selected rows from the table
+        selected_rows = request.form.getlist('selectedRows[]')
         
+        # Center location
+        lat1, lon1 = (34.5614, -117.6045) # 46CN
+        glide_ratio = 40
+        safety_margin = 0.5
+        Vg = 51 # knots
+
         # Call plot_map() to generate map HTML string
         map_html = plot_map(
             lat1, 
             lon1, 
-            lat2, 
-            lon2, 
             glide_ratio, 
             safety_margin, 
             Vg, 
-            center_locations=[
-                (34.5614, -117.6045, 3000, 10, 0), 
-                (34.5614, -117.6045, 5000, 10, 0), 
-                (34.5614, -117.6045, 7000, 10, 0), 
-                (34.5614, -117.6045, 9000, 10, 0), 
-                (34.5614, -117.6045, 11000, 10, 0), 
-                (34.5614, -117.6045, 13000, 10, 0), 
-                (34.5614, -117.6045, 15000, 10, 0)
-                ]
+            center_locations=selected_rows
+           # [
+           #     (34.5614, -117.6045, 3000, 10, 0), 
+           #     (34.5614, -117.6045, 5000, 10, 0), 
+           #     (34.5614, -117.6045, 7000, 10, 0), 
+           #     (34.5614, -117.6045, 9000, 10, 0), 
+           #     (34.5614, -117.6045, 11000, 10, 0), 
+           #     (34.5614, -117.6045, 13000, 10, 0), 
+           #     (34.5614, -117.6045, 15000, 10, 0)
+           #     ]
             )
 
         # Return the generated output or redirect to another page
@@ -167,7 +172,7 @@ def index():
 
         return render_template("index.html", map_html=map_html)
 
-    return render_template("index.html", map_html=map_html)
+    return render_template("index.html", map_html=map_html, data=data)
 
 if __name__ == "__main__":
     app.run(debug=True)
