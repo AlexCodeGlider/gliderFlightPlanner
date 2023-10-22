@@ -141,11 +141,11 @@ def index():
         selected_rows = request.form.getlist('selectedRows[]')
         
         # Extract new form data
-        wind_direction = request.form['windDirection']
-        wind_speed = request.form['windSpeed']
-        glide_ratio = request.form['glideRatio']
-        vg = request.form['vg']
-        safety_margin = request.form['safetyMargin']
+        wind_direction = float(request.form['windDirection'])
+        wind_speed = float(request.form['windSpeed'])
+        glide_ratio = float(request.form['glideRatio'])
+        vg = float(request.form['vg'])
+        safety_margin = float(request.form['safetyMargin'])
 
         polygon_altitudes = [
             3000, 
