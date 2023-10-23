@@ -49,3 +49,5 @@ wandb==0.13.9
 wavenet-vocoder==0.1.1
 websocket-client==1.4.2
 xlrd==2.0.1
+gunicorn==20.1.0
+
