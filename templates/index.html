@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glider Flight Planner</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -71,16 +74,25 @@
     <div class="container">
         <h1 class="my-4">Glider Flight Planner</h1>
 
+        <div>
+            <a href="/user-guide" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-book mr-2"></i>User Guide
+            </a>            
+        </div>
+        <div>
+            <a href="/disclaimer" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-exclamation-triangle mr-2"></i>Disclaimer
+            </a>            
+        </div>
+        <div class="mb-3">
+            <a href="https://github.com/AlexCodeGlider/gliderFlightPlanner" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github mr-2"></i>View project on GitHub
+            </a>            
+        </div>
         <p>Welcome to the Glider Flight Planner! Enter the flight parameters and select locations to create map.</p>
-        <div>
-            <a href="/user-guide" class="mb-2">User Guide</a>
-        </div>
-        <div>
-            <a href="/disclaimer" class="mb-4">Disclaimer</a>
-        </div>
         
         <form action="/" method="post" id="flightParametersForm">
-            <div class="row pt-3">
+            <div class="row pt-1">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="windDirection">Wind Direction (degrees):</label>
