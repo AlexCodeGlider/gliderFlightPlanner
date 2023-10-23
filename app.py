@@ -198,5 +198,9 @@ def index():
 def user_guide():
     return render_template('user_guide.html')
 
+@app.route('/disclaimer')
+def disclaimer():
+    return render_template('disclaimer.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
