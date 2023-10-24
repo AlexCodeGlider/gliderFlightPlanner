@@ -30,7 +30,6 @@
     <link rel="stylesheet" href="/static/css/styles.css"> 
 </head>
 
-<!-- Update DataTables Initialization -->
 <script>
     $(document).ready( function () {
         var table = $('#locationsTable').DataTable({
@@ -51,7 +50,8 @@
         });
         
         // Handle form submission
-        $("#flightParametersForm").submit(function() {
+        $("#flightParametersForm").submit(function(event) {
+            event.preventDefault();
             var selectedData = [];
             var selectedRows = table.rows('.selected').data();
             $.each(selectedRows, function(index, value) {
@@ -66,8 +66,31 @@
                     value: value
                 }).appendTo("#flightParametersForm");
             });
+
+            $.ajax({
+                type: $(this).attr('method'),
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(data, status, request) {
+                    var location = request.getResponseHeader('Location');
+                    checkTask(location);
+                } 
+            });
+            $("#flightParametersForm input[type='submit']").prop("disabled", true).val("Please wait...");
         });
-    } );
+
+        function checkTask(location) {
+            $.get(location, function(data) {
+                if (data.state == 'SUCCESS' || data.state == 'FAILURE') {
+                    location.reload();
+                } else {
+                    setTimeout(function() {
+                        checkTask(location);
+                    }, 1000);
+                }
+            });
+        }
+    });
 </script>
 
 <body>
