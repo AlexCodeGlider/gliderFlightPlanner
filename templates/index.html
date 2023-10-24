@@ -72,8 +72,8 @@
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
                 success: function(data, status, request) {
-                    var location = request.getResponseHeader('Location');
-                    checkTask(location);
+                    var taskLocation = request.getResponseHeader('Location');
+                    checkTask(taskLocation);
                 } 
             });
             $("#flightParametersForm input[type='submit']").prop("disabled", true).val("Please wait...");
@@ -82,7 +82,7 @@
         function checkTask(location) {
             $.get(location, function(data) {
                 if (data.state == 'SUCCESS' || data.state == 'FAILURE') {
-                    location.reload();
+                    window.location.reload();
                 } else {
                     setTimeout(function() {
                         checkTask(location);
