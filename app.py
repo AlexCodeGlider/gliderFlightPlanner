@@ -6,6 +6,7 @@ from math import radians, cos, sin, asin, sqrt, degrees, atan2
 from shapely.geometry import Point, Polygon, MultiPolygon
 from shapely.ops import unary_union
 import csv
+import ast
 
 app = Flask(__name__)
 
@@ -171,10 +172,10 @@ def disclaimer():
 @app.route("/map", methods=["GET"])
 def map_page():
     data = []
-    selected_rows = request.args.getlist('selected_rows[]')
-    print(selected_rows)
-    wind_direction = request.args.get('wind_direction')
-    wind_speed = request.args.get('wind_speed')
+    selected_rows_str = request.args.get('selected_rows')
+    selected_rows = ast.literal_eval(selected_rows_str)
+    wind_direction = float(request.args.get('wind_direction'))
+    wind_speed = float(request.args.get('wind_speed'))
 
     # Load data from CSV
     with open('data/Crystal23.csv', 'r') as file:
@@ -202,8 +203,8 @@ def map_page():
                         float(row['Lat']), 
                         float(row['Long']), 
                         float(polygon_altitude), 
-                        float(wind_speed), 
-                        float(wind_direction),
+                        wind_speed, 
+                        wind_direction,
                         float(row['Altitude']) + 1500, # Add 1,500 feet to the center location altitude to account for the arrival altitude
                         row['Name'],
                         row['Type'],
@@ -215,9 +216,9 @@ def map_page():
     lat1, lon1 = (34.5614, -117.6045) # 46CN
 
     # Retrieve form parameters from request arguments
-    glide_ratio = request.args.get('glide_ratio')
-    safety_margin = request.args.get('safety_margin')
-    vg = request.args.get('vg')
+    glide_ratio = float(request.args.get('glide_ratio'))
+    safety_margin = float(request.args.get('safety_margin'))
+    vg = float(request.args.get('vg'))
     
     # Generate the map using the form parameters
     map_html = plot_map(
