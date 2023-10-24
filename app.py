@@ -127,7 +127,6 @@ def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polyg
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    map_html = ""
     data = []
 
     # Load data from CSV
@@ -139,7 +138,7 @@ def index():
     if request.method == "POST":
         # Extract selected rows from the table
         selected_rows = request.form.getlist('selectedRows[]')
-        
+        print(selected_rows)
         # Extract new form data
         wind_direction = float(request.form['windDirection'])
         wind_speed = float(request.form['windSpeed'])
@@ -147,7 +146,43 @@ def index():
         vg = float(request.form['vg'])
         safety_margin = float(request.form['safetyMargin']) / 100
 
-        polygon_altitudes = [
+        # Create a form data dictionary
+        form_data = {
+            'selected_rows': [selected_rows],
+            'glide_ratio': glide_ratio,
+            'safety_margin': safety_margin,
+            'vg': vg,
+            'wind_speed': wind_speed,
+            'wind_direction': wind_direction
+        }
+        
+        return redirect(url_for('map_page', **form_data))
+
+    return render_template("index.html", data=data)
+
+@app.route('/user-guide')
+def user_guide():
+    return render_template('user_guide.html')
+
+@app.route('/disclaimer')
+def disclaimer():
+    return render_template('disclaimer.html')
+
+@app.route("/map", methods=["GET"])
+def map_page():
+    data = []
+    selected_rows = request.args.getlist('selected_rows[]')
+    print(selected_rows)
+    wind_direction = request.args.get('wind_direction')
+    wind_speed = request.args.get('wind_speed')
+
+    # Load data from CSV
+    with open('data/Crystal23.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            data.append(row)
+    
+    polygon_altitudes = [
             3000, 
             5000, 
             7000, 
@@ -157,50 +192,45 @@ def index():
             15000
             ]
 
-        center_locations =[]
+    center_locations =[]
 
-        for polygon_altitude in polygon_altitudes:
-            for row in data:
-                if row['ID'] in selected_rows:
-                    center_locations.append(
-                        (
-                            float(row['Lat']), 
-                            float(row['Long']), 
-                            float(polygon_altitude), 
-                            float(wind_speed), 
-                            float(wind_direction),
-                            float(row['Altitude']) + 1500, # Add 1,500 feet to the center location altitude to account for the arrival altitude
-                            row['Name'],
-                            row['Type'],
-                            row['Description']
-                            )
+    for polygon_altitude in polygon_altitudes:
+        for row in data:
+            if row['ID'] in selected_rows:
+                center_locations.append(
+                    (
+                        float(row['Lat']), 
+                        float(row['Long']), 
+                        float(polygon_altitude), 
+                        float(wind_speed), 
+                        float(wind_direction),
+                        float(row['Altitude']) + 1500, # Add 1,500 feet to the center location altitude to account for the arrival altitude
+                        row['Name'],
+                        row['Type'],
+                        row['Description']
                         )
+                    )
 
-        # Zoom center location
-        lat1, lon1 = (34.5614, -117.6045) # 46CN
+    # Zoom center location
+    lat1, lon1 = (34.5614, -117.6045) # 46CN
 
-        # Call plot_map() to generate map HTML string
-        map_html = plot_map(
-            lat1, 
-            lon1, 
-            glide_ratio, 
-            safety_margin, 
-            vg, 
-            center_locations=center_locations,
-            polygon_altitudes=polygon_altitudes
-            )
+    # Retrieve form parameters from request arguments
+    glide_ratio = request.args.get('glide_ratio')
+    safety_margin = request.args.get('safety_margin')
+    vg = request.args.get('vg')
+    
+    # Generate the map using the form parameters
+    map_html = plot_map(
+        lat1, 
+        lon1,
+        glide_ratio,
+        safety_margin,
+        vg,
+        center_locations,
+        polygon_altitudes
+        ) 
 
-        return render_template("index.html", map_html=map_html)
-
-    return render_template("index.html", map_html=map_html, data=data)
-
-@app.route('/user-guide')
-def user_guide():
-    return render_template('user_guide.html')
-
-@app.route('/disclaimer')
-def disclaimer():
-    return render_template('disclaimer.html')
+    return render_template("map.html", map_html=map_html)
 
 if __name__ == "__main__":
     app.run(debug=True)
