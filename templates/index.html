@@ -15,7 +15,6 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap JS and Popper.js -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -51,22 +50,32 @@
         });
         
         // Handle form submission
-        $("#flightParametersForm").submit(function() {
-            var selectedData = [];
-            var selectedRows = table.rows('.selected').data();
-            $.each(selectedRows, function(index, value) {
-                selectedData.push(value[0]); // Assuming the ID is in the first column
-            });
-            
-            // Add the selected row IDs as hidden input fields to the form
-            $.each(selectedData, function(index, value) {
-                $("<input>").attr({
-                    type: "hidden",
-                    name: "selectedRows[]",
-                    value: value
-                }).appendTo("#flightParametersForm");
+        $("#flightParametersForm").submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.post("/", formData, function(data, status, xhr) {
+                var location = xhr.getResponseHeader('Location');
+                checkTask(location);
             });
         });
+
+        function checkTask(location) {
+            $.get(location, function(data) {
+                if (data.state == 'PENDING') {
+                    // Show 'please wait' message and disable the 'Create Map' button
+                    $("#flightParametersForm :input").prop("disabled", true);
+                    // TODO: Add a 'please wait' message to the user
+                } else if (data.state == 'SUCCESS') {
+                    // Redirect to the new map page
+                    window.location.href = "/display_map"; // Modify this if you have a different URL for the map page
+                } else {
+                    // Check the task status again after a delay
+                    setTimeout(function() {
+                        checkTask(location);
+                    }, 2000);
+                }
+            });
+        }
     } );
 </script>
 

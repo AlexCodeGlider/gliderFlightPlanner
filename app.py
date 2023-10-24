@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 import folium
 from folium.features import DivIcon
 import numpy as np
@@ -6,8 +6,15 @@ from math import radians, cos, sin, asin, sqrt, degrees, atan2
 from shapely.geometry import Point, Polygon, MultiPolygon
 from shapely.ops import unary_union
 import csv
+from celery import Celery
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
 
 def glide_range(altitude, arrival_altitude, glide_ratio, safety_margin, Vg, wind_speed, wind_direction, heading):
     """
@@ -71,7 +78,7 @@ def haversine(lon1, lat1, d, brng):
 
     return [lat2, lon2]
 
-#@title ## Create a new map
+@celery.task
 def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polygon_altitudes):
     m = folium.Map(location=[lat1, lon1], tiles=None, zoom_start=10)
     folium.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Satellite', overlay=False, control=True).add_to(m)
@@ -179,18 +186,8 @@ def index():
         # Zoom center location
         lat1, lon1 = (34.5614, -117.6045) # 46CN
 
-        # Call plot_map() to generate map HTML string
-        map_html = plot_map(
-            lat1, 
-            lon1, 
-            glide_ratio, 
-            safety_margin, 
-            vg, 
-            center_locations=center_locations,
-            polygon_altitudes=polygon_altitudes
-            )
-
-        return render_template("index.html", map_html=map_html)
+        task = plot_map.apply_async(args=[lat1, lon1, glide_ratio, safety_margin, vg, center_locations, polygon_altitudes])
+        return jsonify({}), 202, {'Location': url_for('taskstatus', task_id=task.id)}
 
     return render_template("index.html", map_html=map_html, data=data)
 
@@ -201,6 +198,41 @@ def user_guide():
 @app.route('/disclaimer')
 def disclaimer():
     return render_template('disclaimer.html')
+
+@app.route('/status/<task_id>')
+def taskstatus(task_id):
+    task = plot_map.AsyncResult(task_id)
+    if task.state == 'PENDING':
+        response = {
+            'state': task.state,
+            'current': 0,
+            'total': 1,
+            'status': 'Pending...'
+        }
+    elif task.state != 'FAILURE':
+        response = {
+            'state': task.state,
+            'current': task.info.get('current', 0),
+            'total': task.info.get('total', 1),
+            'status': task.info.get('status', '')
+        }
+        if 'result' in task.info:
+            # Store the map HTML in the session
+            session['map_html'] = task.info['result']
+    else:
+        response = {
+            'state': task.state,
+            'current': 1,
+            'total': 1,
+            'status': str(task.info)
+        }
+    return jsonify(response)
+
+@app.route('/display_map')
+def display_map():
+    # Retrieve the map HTML from the session or database
+    map_html = session.get('map_html', '')
+    return render_template('display_map.html', map_html=map_html)
 
 if __name__ == "__main__":
     app.run(debug=True)
