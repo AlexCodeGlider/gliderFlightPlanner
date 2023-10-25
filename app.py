@@ -129,10 +129,23 @@ def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polyg
 def index():
     data = []
 
+    # Define the mapping for the Type column
+    type_mapping = {
+        'A': 'Airfield',
+        'T': 'Turnpoint',
+        'TA': 'Airfield/Turnpoint',
+        'TL': 'Landable/Turnpoint',
+        'AT': 'Airfield/Turnpoint',
+        'L': 'Landable',
+        'AL': 'Airport/Landable'
+    }
+
     # Load data from CSV
     with open('data/Crystal23.csv', 'r') as file:
         reader = csv.DictReader(file)
         for row in reader:
+            # Replace the value in the Type column using the mapping
+            row['Type'] = type_mapping.get(row['Type'], row['Type'])
             data.append(row)
 
     if request.method == "POST":
