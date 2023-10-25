@@ -223,9 +223,14 @@ def map_page():
 
     center_locations =[]
 
+    lat1 = 0
+    lon1 = 0
+
     for polygon_altitude in polygon_altitudes:
         for row in data:
             if row['ID'] in selected_rows:
+                lat1 += float(row['Lat'])
+                lon1 += float(row['Long'])
                 center_locations.append(
                     (
                         float(row['Lat']), 
@@ -241,7 +246,8 @@ def map_page():
                     )
 
     # Zoom center location
-    lat1, lon1 = (34.5614, -117.6045) # 46CN
+    lat1 = lat1 / len(selected_rows)
+    lon1 = lon1 / len(selected_rows)
 
     # Retrieve form parameters from request arguments
     glide_ratio = float(request.args.get('glide_ratio'))
