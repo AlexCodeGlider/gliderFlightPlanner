@@ -72,7 +72,6 @@ def haversine(lon1, lat1, d, brng):
 
     return [lat2, lon2]
 
-#@title ## Create a new map
 def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polygon_altitudes):
     m = folium.Map(location=[lat1, lon1], tiles=None, zoom_start=10)
     folium.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Satellite', overlay=False, control=True).add_to(m)
@@ -232,6 +231,26 @@ def map_page():
         ) 
 
     return render_template("map.html", map_html=map_html)
+
+@app.route('/about-us')
+def about_us():
+    return render_template('about_us.html')
+
+@app.route('/terms-of-service')
+def terms_of_service():
+    return render_template('terms_of_service.html')
+
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy_policy.html')
+
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+@app.route('/contact-us')
+def contact_us():
+    return render_template('contact_us.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
