@@ -160,7 +160,8 @@ def index():
         selected_glider = request.form['gliderSelection']
         if selected_glider != "other":
             for glider in gliders:
-                if glider['name'] == selected_glider:
+                selected_glider_name = glider['make'] + " " + glider['model']
+                if selected_glider_name == selected_glider:
                     glide_ratio = float(glider['glide_ratio'])
                     vg = float(glider['vg'])
                     break

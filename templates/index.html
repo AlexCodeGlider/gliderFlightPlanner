@@ -2,10 +2,12 @@
 
 {% block content %}"
 <!-- templates/index.html -->
+<!-- Define glidersData first -->
 <script>
-    var glidersData = JSON.parse('{{ gliders_json | safe }}');
+    var glidersData = {{ gliders_json | safe }};
     console.log(glidersData);
 </script>
+
 <script>
     $(document).ready( function () {
         var table = $('#locationsTable').DataTable({
@@ -52,8 +54,8 @@
         var gliderDropdown = document.getElementById("gliderSelection");
         glidersData.forEach(function(glider) {
             var option = document.createElement("option");
-            option.value = glider.name;
-            option.text = glider.name;
+            option.value = glider.make + " " + glider.model;
+            option.text = glider.make + " " + glider.model;
             gliderDropdown.add(option);
         });
     });    
@@ -61,16 +63,22 @@
         var gliderSelection = document.getElementById("gliderSelection").value;
         var glideRatioInput = document.getElementById("glideRatio");
         var vgInput = document.getElementById("vg");
+
         if (gliderSelection == "other") {
             glideRatioInput.removeAttribute("readonly");
             vgInput.removeAttribute("readonly");
+            glideRatioInput.value = ""; // Clear the input fields
+            vgInput.value = "";
         } else {
-            if (glidersData[gliderSelection]) {
-                glideRatioInput.value = glidersData[gliderSelection].glide_ratio;
-                vgInput.value = glidersData[gliderSelection].vg;
-                glideRatioInput.setAttribute("readonly", true);
-                vgInput.setAttribute("readonly", true);
-            }
+            glidersData.forEach(function(glider) {
+                var gliderName = glider.make + " " + glider.model;
+                if (gliderSelection == gliderName) {
+                    glideRatioInput.value = glider.glide_ratio;
+                    vgInput.value = glider.vg;
+                    glideRatioInput.setAttribute("readonly", true);
+                    vgInput.setAttribute("readonly", true);
+                }
+            });
         }
     }
 </script>
