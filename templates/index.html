@@ -3,7 +3,8 @@
 {% block content %}"
 <!-- templates/index.html -->
 <script>
-    var glidersData = JSON.parse('{{ gliders_json | tojson | safe }}');
+    var glidersData = JSON.parse('{{ gliders_json | safe }}');
+    console.log(glidersData);
 </script>
 <script>
     $(document).ready( function () {

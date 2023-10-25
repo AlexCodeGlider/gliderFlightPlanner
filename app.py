@@ -149,12 +149,9 @@ def index():
             row['Type'] = type_mapping.get(row['Type'], row['Type'])
             data.append(row)
 
-    # Load gliders data from CSV
-    gliders = []
-    with open('data/gliders.csv', 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            gliders.append(row)
+    # Load gliders data from the JSON file
+    with open('data/gliders.json', 'r') as file:
+        gliders = json.load(file)
 
     if request.method == "POST":
         # Extract selected rows from the table
@@ -189,8 +186,7 @@ def index():
         
         return redirect(url_for('map_page', **form_data))
 
-    gliders_json = json.dumps(gliders)
-    return render_template("index.html", data=data, gliders_json=gliders_json)
+    return render_template("index.html", data=data, gliders_json=gliders)
 
 @app.route('/user-guide')
 def user_guide():

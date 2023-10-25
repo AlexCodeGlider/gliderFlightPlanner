@@ -1,0 +1,20 @@
+[
+    {
+        "make": "Schleicher",
+        "model": "ASK-21",
+        "glide_ratio": "34",
+        "vg": "49"
+    },
+    {
+        "make": "Grob",
+        "model": "G103a Twin II",
+        "glide_ratio": "37",
+        "vg": "57"
+    },
+    {
+        "make": "SZD",
+        "model": "Jantar Standard 2/3",
+        "glide_ratio": "40",
+        "vg": "51"
+    }
+]
