@@ -36,6 +36,9 @@
         
         // Handle form submission
         $("#flightParametersForm").submit(function() {
+            if (!validateForm()) {
+                return false;  // Prevent form submission if validation fails
+            }
             var selectedData = [];
             var selectedRows = table.rows('.selected').data();
             $.each(selectedRows, function(index, value) {
@@ -80,6 +83,14 @@
                 }
             });
         }
+    }
+    function validateForm() {
+        var selectedRows = $('#locationsTable').DataTable().rows('.selected').data();
+        if (selectedRows.length === 0) {
+            alert("Please select at least one location before submitting.");
+            return false;  // Prevent form submission
+        }
+        return true;  // Allow form submission
     }
 </script>
 
