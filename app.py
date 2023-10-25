@@ -7,6 +7,7 @@ from shapely.geometry import Point, Polygon, MultiPolygon
 from shapely.ops import unary_union
 import csv
 import ast
+import json
 
 app = Flask(__name__)
 
@@ -148,15 +149,32 @@ def index():
             row['Type'] = type_mapping.get(row['Type'], row['Type'])
             data.append(row)
 
+    # Load gliders data from CSV
+    gliders = []
+    with open('data/gliders.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            gliders.append(row)
+
     if request.method == "POST":
         # Extract selected rows from the table
         selected_rows = request.form.getlist('selectedRows[]')
-        print(selected_rows)
+        
+        selected_glider = request.form['gliderSelection']
+        if selected_glider != "other":
+            for glider in gliders:
+                if glider['name'] == selected_glider:
+                    glide_ratio = float(glider['glide_ratio'])
+                    vg = float(glider['vg'])
+                    break
+        else:
+            glide_ratio = float(request.form['glideRatio'])
+            vg = float(request.form['vg'])
+
+
         # Extract new form data
         wind_direction = float(request.form['windDirection'])
         wind_speed = float(request.form['windSpeed'])
-        glide_ratio = float(request.form['glideRatio'])
-        vg = float(request.form['vg'])
         safety_margin = float(request.form['safetyMargin']) / 100
 
         # Create a form data dictionary
@@ -171,7 +189,8 @@ def index():
         
         return redirect(url_for('map_page', **form_data))
 
-    return render_template("index.html", data=data)
+    gliders_json = json.dumps(gliders)
+    return render_template("index.html", data=data, gliders_json=gliders_json)
 
 @app.route('/user-guide')
 def user_guide():

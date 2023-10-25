@@ -3,6 +3,9 @@
 {% block content %}"
 <!-- templates/index.html -->
 <script>
+    var glidersData = JSON.parse('{{ gliders_json | tojson | safe }}');
+</script>
+<script>
     $(document).ready( function () {
         var table = $('#locationsTable').DataTable({
             "columnDefs": [
@@ -45,7 +48,23 @@
                 }).appendTo("#flightParametersForm");
             });
         });
-    } );
+    } );    
+    function handleGliderSelection() {
+        var gliderSelection = document.getElementById("gliderSelection").value;
+        var glideRatioInput = document.getElementById("glideRatio");
+        var vgInput = document.getElementById("vg");
+        if (gliderSelection == "other") {
+            glideRatioInput.removeAttribute("readonly");
+            vgInput.removeAttribute("readonly");
+        } else {
+            if (glidersData[gliderSelection]) {
+                glideRatioInput.value = glidersData[gliderSelection].glide_ratio;
+                vgInput.value = glidersData[gliderSelection].vg;
+                glideRatioInput.setAttribute("readonly", true);
+                vgInput.setAttribute("readonly", true);
+            }
+        }
+    }
 </script>
 
 <body>
@@ -73,14 +92,13 @@
             <div class="row pt-1">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="windDirection">Wind Direction (degrees):</label>
-                        <input type="number" class="form-control" id="windDirection" name="windDirection" min="0" max="360" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="windSpeed">Wind Speed (knots):</label>
-                        <input type="number" class="form-control" id="windSpeed" name="windSpeed" required>
+                        <label for="gliderSelection">Select Glider:</label>
+                        <select class="form-control" id="gliderSelection" name="gliderSelection" onchange="handleGliderSelection()">
+                            <option value="other">Other</option>
+                            {% for glider in gliders %}
+                            <option value="{{ glider.name }}">{{ glider.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -95,6 +113,21 @@
                         <input type="number" class="form-control" id="vg" name="vg" required>
                     </div>
                 </div>
+                                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="windDirection">Wind Direction (degrees):</label>
+                        <input type="number" class="form-control" id="windDirection" name="windDirection" min="0" max="360" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="windSpeed">Wind Speed (knots):</label>
+                        <input type="number" class="form-control" id="windSpeed" name="windSpeed" required>
+                    </div>
+                </div>
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="safetyMargin">Safety Margin (%):</label>
