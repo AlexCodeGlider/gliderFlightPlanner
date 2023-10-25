@@ -43,6 +43,12 @@ def glide_range(altitude, arrival_altitude, glide_ratio, safety_margin, Vg, wind
     # Calculate the effective wind speed
     Vw = wind_speed * np.cos(angle_diff)
 
+    safety_margin = 1 - safety_margin
+
+    # Set a minimum safety margin to avoid multiplying by zero
+    MIN_SAFETY_MARGIN = 0.01
+    safety_margin = max(safety_margin, MIN_SAFETY_MARGIN)
+
     # Calculate the glide ratio in the presence of wind
     glide_ratio_wind = ((Vg - Vw) / Vg) * glide_ratio * safety_margin
 
