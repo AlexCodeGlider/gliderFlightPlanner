@@ -223,14 +223,9 @@ def map_page():
 
     center_locations =[]
 
-    lat1 = 0
-    lon1 = 0
-
     for polygon_altitude in polygon_altitudes:
         for row in data:
             if row['ID'] in selected_rows:
-                lat1 += float(row['Lat'])
-                lon1 += float(row['Long'])
                 center_locations.append(
                     (
                         float(row['Lat']), 
@@ -245,9 +240,18 @@ def map_page():
                         )
                     )
 
-    # Zoom center location
-    lat1 = lat1 / len(selected_rows)
-    lon1 = lon1 / len(selected_rows)
+    # Initialize total latitude and longitude to zero
+    total_lat = 0
+    total_lon = 0
+
+    # Iterate over the center locations
+    for location in center_locations:
+        total_lat += location[0]
+        total_lon += location[1]
+
+    # Calculate the average latitude and longitude
+    avg_lat = total_lat / len(center_locations)
+    avg_lon = total_lon / len(center_locations)
 
     # Retrieve form parameters from request arguments
     glide_ratio = float(request.args.get('glide_ratio'))
@@ -256,8 +260,8 @@ def map_page():
     
     # Generate the map using the form parameters
     map_html = plot_map(
-        lat1, 
-        lon1,
+        avg_lat, 
+        avg_lon,
         glide_ratio,
         safety_margin,
         vg,
