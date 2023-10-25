@@ -48,7 +48,14 @@
                 }).appendTo("#flightParametersForm");
             });
         });
-    } );    
+        var gliderDropdown = document.getElementById("gliderSelection");
+        glidersData.forEach(function(glider) {
+            var option = document.createElement("option");
+            option.value = glider.name;
+            option.text = glider.name;
+            gliderDropdown.add(option);
+        });
+    });    
     function handleGliderSelection() {
         var gliderSelection = document.getElementById("gliderSelection").value;
         var glideRatioInput = document.getElementById("glideRatio");
@@ -95,9 +102,6 @@
                         <label for="gliderSelection">Select Glider:</label>
                         <select class="form-control" id="gliderSelection" name="gliderSelection" onchange="handleGliderSelection()">
                             <option value="other">Other</option>
-                            {% for glider in gliders %}
-                            <option value="{{ glider.name }}">{{ glider.name }}</option>
-                            {% endfor %}
                         </select>
                     </div>
                 </div>
