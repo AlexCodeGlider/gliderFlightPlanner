@@ -57,6 +57,7 @@ coverage.xml
 # Flask stuff:
 instance/
 .webassets-cache
+flask_session/
 
 # Scrapy stuff:
 .scrapy
