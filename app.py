@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_session import Session
 import folium
 from folium.features import DivIcon
 import numpy as np
@@ -8,8 +9,19 @@ from shapely.ops import unary_union
 import csv
 import ast
 import json
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
+
+# Set the secret key to some random bytes for session encryption
+app.secret_key = os.environ.get('SECRET_KEY')
+
+# Use filesystem session type for demonstration purposes
+app.config['SESSION_TYPE'] = 'filesystem'
+
+Session(app)
 
 def glide_range(altitude, arrival_altitude, glide_ratio, safety_margin, Vg, wind_speed, wind_direction, heading):
     """
@@ -132,7 +144,22 @@ def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polyg
                     ).add_to(m)
     return m.get_root().render()
 
-@app.route("/", methods=["GET", "POST"])
+@app.route('/')
+def home():
+    if 'agreed_to_terms' in session:
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('welcome'))
+
+@app.route('/welcome', methods=['GET', 'POST'])
+def welcome():
+    if request.method == 'POST':
+        # User has agreed to terms and conditions
+        session['agreed_to_terms'] = True
+        return redirect(url_for('index'))
+    return render_template('welcome.html')
+
+@app.route("/index", methods=["GET", "POST"])
 def index():
     data = []
 

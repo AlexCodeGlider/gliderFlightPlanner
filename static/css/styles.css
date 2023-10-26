@@ -36,3 +36,14 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+
+.screenshots {
+    display: flex;
+    justify-content: space-between; /* Distributes space evenly between the images */
+    gap: 20px; /* Adds space between the images */
+}
+
+.screenshots img {
+    max-width: 55%; /* Adjust this value as needed to resize the images */
+    height: auto; /* Maintains the aspect ratio of the images */
+}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to the Glider Flight Planner!</h1>
+    <p class="lead">This application allows you to plan your glider flights by selecting landing locations and inputting flight parameters and wind conditions.</p>
+    <p class="lead">The resulting high resolution map shows minimum altitude countour rings based on the selected flight parameters. You can overlay the countour rings on top of satellite imagery, topographic maps and FAA sectional charts.</p>
+    <p class="lead">To get started, please read the <a href="{{ url_for('user_guide') }}">User Guide</a> and <a href="{{ url_for('disclaimer') }}">Disclaimer</a>.</p>
+
+    
+    <!-- Display screenshots and app features -->
+    <div class="screenshots">
+        <img src="{{ url_for('static', filename='Screenshot1.png') }}" alt="Screenshot 1">
+        <img src="{{ url_for('static', filename='Screenshot2.png') }}" alt="Screenshot 2">
+        <!-- Add more screenshots as needed -->
+    </div>
+    
+    <form method="post">
+        <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" name="agree_terms" id="agree_terms">
+            <label class="form-check-label" for="agree_terms">
+                I agree to the <a href="{{ url_for('terms_of_service') }}">Terms and Conditions</a> of use.
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary my-3">Proceed to Flight Planner</button>
+    </form>
+</div>
+{% endblock %}

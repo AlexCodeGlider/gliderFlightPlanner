@@ -106,3 +106,7 @@ venv.bak/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Key Generator
+keyGenerator.py
+```
