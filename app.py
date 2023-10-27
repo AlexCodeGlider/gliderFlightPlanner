@@ -154,13 +154,17 @@ def home():
 @app.route('/welcome', methods=['GET', 'POST'])
 def welcome():
     if request.method == 'POST':
-        # User has agreed to terms and conditions
-        session['agreed_to_terms'] = True
-        return redirect(url_for('index'))
+        if 'agree_terms' in request.form:  # Check if the checkbox is checked
+            # User has agreed to terms and conditions
+            session['agreed_to_terms'] = True
+            return redirect(url_for('index'))
     return render_template('welcome.html')
 
 @app.route("/index", methods=["GET", "POST"])
 def index():
+    if not session.get('agreed_to_terms'):
+        return redirect(url_for('welcome'))
+    
     data = []
 
     # Define the mapping for the Type column
