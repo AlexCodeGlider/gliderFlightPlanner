@@ -5,7 +5,6 @@
 <!-- Define glidersData first -->
 <script>
     var glidersData = {{ gliders_json | safe }};
-    console.log(glidersData);
 </script>
 
 <script>
@@ -128,34 +127,34 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="glideRatio">Glide Ratio:</label>
-                        <input type="number" class="form-control" id="glideRatio" name="glideRatio" required>
+                        <input type="number" class="form-control" id="glideRatio" name="glideRatio" placeholder="e.g., 35" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="vg">Vg (Best Glide Speed in knots):</label>
-                        <input type="number" class="form-control" id="vg" name="vg" required>
+                        <input type="number" class="form-control" id="vg" name="vg" placeholder="e.g., 55" required>
                     </div>
                 </div>
                                 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="windDirection">Wind Direction (degrees):</label>
-                        <input type="number" class="form-control" id="windDirection" name="windDirection" min="0" max="360" required>
+                        <input type="number" class="form-control" id="windDirection" name="windDirection" min="0" max="360" placeholder="e.g., 250" required>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="windSpeed">Wind Speed (knots):</label>
-                        <input type="number" class="form-control" id="windSpeed" name="windSpeed" required>
+                        <input type="number" class="form-control" id="windSpeed" name="windSpeed" placeholder="e.g., 20" required>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="safetyMargin">Safety Margin (%):</label>
-                        <input type="number" class="form-control" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" required>
+                        <input type="number" class="form-control" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" placeholder="e.g., 50" required>
                     </div>
                 </div>
             </div>
