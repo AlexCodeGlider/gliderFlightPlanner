@@ -2,6 +2,9 @@
 
 Glider Flight Planner is a web application designed to assist glider pilots in planning their flights. The app provides a visual representation of flight paths on a map based on user-defined parameters.
 
+![Screenshot of the app](static/Screenshot1.png)
+![Screenshot of the app](static/Screenshot2.png)
+
 ## ⚠️ Disclaimer
 
 This application is provided as a tool to assist glider pilots in planning their flights. While every effort has been made to ensure the accuracy of the information provided, users should always exercise caution and verify information with other sources before relying on it for flight planning or any other purposes. **Use this application at your own risk.** The developers and contributors are not responsible for any inaccuracies or for any decisions made based on the information provided by this application.
