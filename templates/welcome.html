@@ -22,7 +22,23 @@
                 I agree to the <a href="{{ url_for('terms_of_service') }}">Terms and Conditions</a> of use.
             </label>
         </div>
-        <button type="submit" class="btn btn-primary my-3">Proceed to Flight Planner</button>
+        <button type="submit" class="btn btn-primary my-3" id="submit_button">Proceed to Flight Planner</button>
     </form>
 </div>
+
+<!-- Add this script tag to the head section of your HTML file -->
+<script>
+    // Get the checkbox and submit button elements
+    const agreeTermsCheckbox = document.getElementById('agree_terms');
+    const submitButton = document.getElementById('submit_button');
+
+    // Disable the submit button by default
+    submitButton.disabled = true;
+
+    // Add an event listener to the checkbox to enable/disable the submit button
+    agreeTermsCheckbox.addEventListener('change', function() {
+        submitButton.disabled = !agreeTermsCheckbox.checked;
+    });
+</script>
+
 {% endblock %}
