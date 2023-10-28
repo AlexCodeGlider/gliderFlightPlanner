@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
 import folium
 from folium.features import DivIcon
@@ -10,6 +10,8 @@ import csv
 import ast
 import json
 import os
+import smtplib
+from email.message import EmailMessage
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -361,6 +363,40 @@ def faq():
 @app.route('/contact-us')
 def contact_us():
     return render_template('contact_us.html')
+
+GMAIL_ADDRESS = os.environ.get('GMAIL_ADDRESS')
+GMAIL_PASSWORD = os.environ.get('GMAIL_PASSWORD')
+
+def send_email(to_email, subject, content):
+    """Send email using SMTP."""
+    msg = EmailMessage()
+    msg.set_content(content)
+    msg['Subject'] = subject
+    msg['From'] = GMAIL_ADDRESS
+    msg['To'] = to_email
+
+    # Connect to Gmail's SMTP server
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        server.login(GMAIL_ADDRESS, GMAIL_PASSWORD)
+        server.send_message(msg)
+
+@app.route('/submit_contact_form', methods=['POST'])
+def submit_contact_form():
+    # Extract form data
+    name = request.form.get('name')
+    email = request.form.get('email')
+    message_content = request.form.get('message')
+
+    # Send email
+    subject = "[GliderFlightPlanner] New Contact Form Submission"
+    content = f"Name: {name}\nEmail: {email}\nMessage: {message_content}"
+    send_email(GMAIL_ADDRESS, subject, content)
+
+    # Provide feedback to the user
+    flash('Thank you for reaching out! We will get back to you as soon as possible.', 'success')
+
+    # Redirect to the Contact Us page
+    return redirect(url_for('contact_us'))
 
 if __name__ == "__main__":
     app.run(debug=True)
