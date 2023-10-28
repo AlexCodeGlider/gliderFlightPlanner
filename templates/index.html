@@ -85,11 +85,54 @@
     }
     function validateForm() {
         var selectedRows = $('#locationsTable').DataTable().rows('.selected').data();
-        if (selectedRows.length === 0) {
-            alert("Please select at least one location before submitting.");
+        var manualLocations = document.querySelectorAll('#dynamicFieldContainer .fieldRow');
+        var hasEmptyFields = false;
+
+        // Check for empty fields in the dynamic form field
+        for (var i = 0; i < manualLocations.length; i++) {
+            var inputs = manualLocations[i].querySelectorAll('input');
+            for (var j = 0; j < inputs.length; j++) {
+                if (!inputs[j].value) {
+                    hasEmptyFields = true;
+                    break;
+                }
+            }
+            if (hasEmptyFields) break;
+        }
+
+        if (selectedRows.length === 0 && (manualLocations.length === 0 || hasEmptyFields)) {
+            alert("Please select at least one location from the table or enter a location manually before submitting.");
             return false;  // Prevent form submission
         }
         return true;  // Allow form submission
+    }
+    function addField() {
+        const container = document.getElementById('dynamicFieldContainer');
+        const newRow = document.createElement('div');
+        newRow.classList.add('fieldRow', 'row', 'mb-3');
+        newRow.innerHTML = `
+            <div class="col">
+                <input type="text" class="form-control" name="locationName[]" placeholder="Location Name">
+            </div>
+            <div class="col">
+                <input type="number" class="form-control" name="altitude[]" placeholder="Altitude">
+            </div>
+            <div class="col">
+                <input type="number" class="form-control" name="latitude[]" placeholder="Latitude" step="0.000001">
+            </div>
+            <div class="col">
+                <input type="number" class="form-control" name="longitude[]" placeholder="Longitude" step="0.000001">
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-danger" onclick="removeField(this)">-</button>
+            </div>
+        `;
+        container.appendChild(newRow);
+    }
+
+    function removeField(button) {
+        const container = document.getElementById('dynamicFieldContainer');
+        container.removeChild(button.parentElement.parentElement); // Remove the parent row
     }
 </script>
 
@@ -112,7 +155,7 @@
                 <i class="fab fa-github mr-2"></i>View project on GitHub
             </a>            
         </div>
-        <p>Enter the flight parameters and select locations to create map.</p>
+        <h3>Enter the flight parameters:</h3>
         
         <form action="/index" method="post" id="flightParametersForm">
             <div class="row pt-1">
@@ -158,7 +201,29 @@
                     </div>
                 </div>
             </div>
-            
+
+            <h3>Enter your own locations or select locations from the table to create map:</h3>
+            <div id="dynamicFieldContainer">
+                <div class="fieldRow row mb-3">
+                    <div class="col">
+                        <input type="text" class="form-control" name="locationName[]" placeholder="Location Name">
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control" name="altitude[]" placeholder="Altitude">
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control" name="latitude[]" placeholder="Latitude" step="0.000001">
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control" name="longitude[]" placeholder="Longitude" step="0.000001">
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-danger" onclick="removeField(this)">-</button>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary mb-3" onclick="addField()">Add Location</button>
+
             <!-- Create the table structure -->
             <table id="locationsTable" class="display table table-bordered table-striped">
                 <thead>

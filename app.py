@@ -211,6 +211,10 @@ def index():
         wind_direction = float(request.form['windDirection'])
         wind_speed = float(request.form['windSpeed'])
         safety_margin = float(request.form['safetyMargin']) / 100
+        location_names = request.form.getlist('locationName[]')
+        altitudes = request.form.getlist('altitude[]')
+        latitudes = request.form.getlist('latitude[]')
+        longitudes = request.form.getlist('longitude[]')
 
         # Create a form data dictionary
         form_data = {
@@ -219,7 +223,11 @@ def index():
             'safety_margin': safety_margin,
             'vg': vg,
             'wind_speed': wind_speed,
-            'wind_direction': wind_direction
+            'wind_direction': wind_direction,
+            'location_names': location_names,
+            'altitudes': altitudes,
+            'latitudes': latitudes,
+            'longitudes': longitudes
         }
         
         return redirect(url_for('map_page', **form_data))
@@ -241,6 +249,12 @@ def map_page():
     selected_rows = ast.literal_eval(selected_rows_str)
     wind_direction = float(request.args.get('wind_direction'))
     wind_speed = float(request.args.get('wind_speed'))
+    
+    # Retrieve dynamic form fields
+    location_names = request.args.getlist('location_names')
+    altitudes = request.args.getlist('altitudes')
+    latitudes = request.args.getlist('latitudes')
+    longitudes = request.args.getlist('longitudes')
 
     # Load data from CSV
     with open('data/Crystal23.csv', 'r') as file:
@@ -276,7 +290,27 @@ def map_page():
                         row['Description']
                         )
                     )
-
+                
+    # Append additional center locations
+    for i in range(len(location_names)):
+        # Check if any field in the current row is empty
+        if not (location_names[i] and altitudes[i] and latitudes[i] and longitudes[i]):
+            continue  # Skip processing this row if any field is empty
+        for polygon_altitude in polygon_altitudes:
+            center_locations.append(
+                (
+                    float(latitudes[i]),
+                    float(longitudes[i]),
+                    float(polygon_altitude),
+                    wind_speed,
+                    wind_direction,
+                    float(altitudes[i]) + 1500,  # Add 1,500 feet to the center location altitude
+                    location_names[i],
+                    "A",  # Type for custom locations
+                    "User-defined location"  # Description for custom locations
+                )
+            )
+    
     # Initialize total latitude and longitude to zero
     total_lat = 0
     total_lon = 0
