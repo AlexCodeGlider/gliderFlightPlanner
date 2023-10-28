@@ -1,6 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Frequently Asked Questions</h1>
-    <!-- Add content about your company or team here -->
+<div class="container">
+    <h1>Frequently Asked Questions (FAQ)</h1>
+
+    <h3>1. What is Glider Flight Planner?</h3>
+    <p><strong>Answer:</strong> Glider Flight Planner is a state-of-the-art flight planning application designed specifically for the gliding community. It provides tools and features that help glider pilots plan their flights with safety and precision.</p>
+
+    <h3>2. How do I get started with Glider Flight Planner?</h3>
+    <p><strong>Answer:</strong> You can start planning your flights immediately. Our user-friendly interface ensures a smooth experience even for first-time users.</p>
+
+    <h3>3. Is Glider Flight Planner free to use?</h3>
+    <p><strong>Answer:</strong> Yes, Glider Flight Planner is free to use. However, you can support the development by buying me a coffee!<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="alexcodeglider" data-color="#40DCA5" data-emoji="☕"  data-font="Comic" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script></p>
+
+    <h3>4. How does the Dynamic Form Field work?</h3>
+    <p><strong>Answer:</strong> The Dynamic Form Field allows users to manually enter multiple center locations for their flights. You can add as many locations as you need by clicking on the plus sign.</p>
+
+    <h3>5. I encountered an error while using the app. What should I do?</h3>
+    <p><strong>Answer:</strong> We apologize for the inconvenience. Please <a href="{{ url_for('contact_us') }}">contact us</a> with details of the error, and our team will address it promptly.</p>
+
+    <h3>6. How do I provide feedback or suggestions?</h3>
+    <p><strong>Answer:</strong> We value your feedback and suggestions. Please visit our <a href="{{ url_for('contact_us') }}">contact page</a> to share your thoughts or report any issues.</p>
+
+    <h3>7. Is my data secure with Glider Flight Planner?</h3>
+    <p><strong>Answer:</strong> Absolutely. We prioritize user data security and have implemented robust measures to protect your information. For more details, please refer to our <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>.</p>
+
+    <h3>8. Can I use Glider Flight Planner on mobile devices?</h3>
+    <p><strong>Answer:</strong> Yes, Glider Flight Planner is designed to be responsive and works seamlessly on both desktop and mobile devices.</p>
+
+    <h3>9. How often is the app updated?</h3>
+    <p><strong>Answer:</strong> We continuously strive to improve Glider Flight Planner and regularly roll out updates to enhance performance, fix bugs, and introduce new features.</p>
+
+    <h3>10. I have more questions. How can I reach out?</h3>
+    <p><strong>Answer:</strong> We're here to help! Please visit our <a href="{{ url_for('contact_us') }}">contact page</a> to get in touch with our support team.</p>
+</div>
 {% endblock %}

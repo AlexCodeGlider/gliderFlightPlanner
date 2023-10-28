@@ -1,6 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container">
     <h1>Privacy Policy</h1>
-    <!-- Add content about your company or team here -->
+    <p>Last updated: October 28, 2023</p>
+
+    <p>At <strong>Glider Flight Planner</strong>, we respect your privacy and are committed to protecting it. This Privacy Policy outlines our practices concerning the collection, use, and sharing of your personal information. By visiting our website, you accept the practices described in this Policy.</p>
+
+    <h2>Information We Collect</h2>
+    <p>We collect information that you provide directly to us. For example, we collect information when you create an account, subscribe, participate in any interactive features of our services, fill out a form, request customer support, or communicate with us.</p>
+
+    <h2>How We Use Your Information</h2>
+    <p>We use the information we collect to provide, maintain, and improve our services. We also use the information we collect to:</p>
+    <ul>
+        <li>Send you technical notices, updates, security alerts, and support and administrative messages.</li>
+        <li>Respond to your comments, questions, and requests and provide customer service.</li>
+        <li>Communicate with you about products, services, offers, promotions, and events, and provide other news or information about <strong>Glider Flight Planner</strong> and our partners.</li>
+    </ul>
+
+    <h2>Sharing of Information</h2>
+    <p>We do not share your personal information with third parties without your consent, except in the following circumstances:</p>
+    <ul>
+        <li>With third-party vendors and other service providers who need access to your information to carry out work on our behalf.</li>
+        <li>If we believe your actions are inconsistent with our user agreements or policies, or to protect the rights, property, and safety of <strong>Glider Flight Planner</strong> or others.</li>
+        <li>In connection with, or during negotiations of, any merger, sale of company assets, financing or acquisition of all or a portion of our business by another company.</li>
+    </ul>
+
+    <h2>Security</h2>
+    <p>We take reasonable measures to help protect personal information from loss, theft, misuse, and unauthorized access, disclosure, alteration, and destruction.</p>
+
+    <h2>Updates to Our Privacy Policy</h2>
+    <p>We may modify this Privacy Policy from time to time. If we make changes, we will notify you by revising the date at the top of this policy and, in some cases, provide you with additional notice (such as adding a statement to our homepage or sending you an email notification).</p>
+
+    <h2>Contact Us</h2>
+<p>If you have any questions or concerns about this Privacy Policy, please <a href="{{ url_for('contact_us') }}">contact us</a>.</p>
+</div>
 {% endblock %}
