@@ -16,5 +16,197 @@
         "model": "Jantar Standard 2/3",
         "glide_ratio": "40",
         "vg": "51"
-    }
+    },
+    {
+        "make": "Schempp-Hirth",
+        "model": "Discus-2",
+        "glide_ratio": "42",
+        "vg": "55"
+    },
+    {
+        "make": "Glasflügel",
+        "model": "H-201 Standard Libelle",
+        "glide_ratio": "39",
+        "vg": "45"
+    },
+    {
+        "make": "LS",
+        "model": "8-18",
+        "glide_ratio": "43",
+        "vg": "55"
+    },
+    {
+        "make": "DG Flugzeugbau",
+        "model": "DG-800",
+        "glide_ratio": "46",
+        "vg": "60"
+    },
+    {
+        "make": "Schleicher",
+        "model": "ASW 28",
+        "glide_ratio": "45",
+        "vg": "55"
+    },
+    {
+        "make": "Alexander Schleicher",
+        "model": "ASG 29",
+        "glide_ratio": "51",
+        "vg": "60"
+    },
+    {
+        "make": "Jonker",
+        "model": "JS-1 Revelation",
+        "glide_ratio": "56",
+        "vg": "65"
+    },
+    {
+        "make": "Schempp-Hirth",
+        "model": "Ventus-3",
+        "glide_ratio": "48",
+        "vg": "60"
+    },
+    {
+        "make": "Schleicher",
+        "model": "ASH 31",
+        "glide_ratio": "50",
+        "vg": "60"
+    },
+    {
+        "make": "Schleicher",
+        "model": "ASH 26",
+        "glide_ratio": "52",
+        "vg": "55"
+    },
+    {
+        "make": "DG Flugzeugbau",
+        "model": "DG-1000",
+        "glide_ratio": "46",
+        "vg": "50"
+    },
+    {
+        "make": "Rolladen-Schneider",
+        "model": "LS4",
+        "glide_ratio": "40",
+        "vg": "45"
+    },
+    {
+        "make": "DG Flugzeugbau",
+        "model": "DG-808",
+        "glide_ratio": "45",
+        "vg": "55"
+    },
+    {
+        "make": "Schempp-Hirth",
+        "model": "Nimbus-4",
+        "glide_ratio": "50",
+        "vg": "60"
+    },
+    {
+        "make": "Rolladen-Schneider",
+        "model": "LS6",
+        "glide_ratio": "48",
+        "vg": "52"
+    },
+    {
+        "make": "Schleicher",
+        "model": "ASW 27",
+        "glide_ratio": "48",
+        "vg": "55"
+    },
+    {
+        "make": "Schleicher",
+        "model": "ASW 22",
+        "glide_ratio": "60",
+        "vg": "60"
+    },
+    {
+        "make": "Schleicher",
+        "model": "ASW 24",
+        "glide_ratio": "42",
+        "vg": "48"
+    },
+    {
+        "make": "Schempp-Hirth",
+        "model": "Duo Discus",
+        "glide_ratio": "44",
+        "vg": "50"
+    },
+    {
+        "make": "Schleicher",
+        "model": "Ka6",
+        "glide_ratio": "29",
+        "vg": "42"
+    },
+    {
+        "make": "Rolladen-Schneider",
+        "model": "LS8",
+        "glide_ratio": "40",
+        "vg": "48"
+    },
+    {
+        "make": "Schempp-Hirth",
+        "model": "Mini Nimbus",
+        "glide_ratio": "41",
+        "vg": "48"
+    },
+    {
+        "make": "Jonker",
+        "model": "JS-3 Rapture",
+        "glide_ratio": "58",
+        "vg": "65"
+    },
+    {
+        "make": "Lange",
+        "model": "Antares 20E",
+        "glide_ratio": "50",
+        "vg": "60"
+    },
+    {
+        "make": "ETA Aircraft",
+        "model": "ETA",
+        "glide_ratio": "70",
+        "vg": "70"
+    },
+    {
+        "make": "Rolladen-Schneider",
+        "model": "LS9",
+        "glide_ratio": "50",
+        "vg": "50"
+    },
+    {
+        "make": "DG Flugzeugbau",
+        "model": "DG-100",
+        "glide_ratio": "39",
+        "vg": "45"
+    },
+    {
+        "make": "Glasflügel",
+        "model": "304",
+        "glide_ratio": "42",
+        "vg": "46"
+    },
+    {
+        "make": "Pilatus",
+        "model": "B4-PC11",
+        "glide_ratio": "34",
+        "vg": "45"
+    },
+    {
+        "make": "Schleicher",
+        "model": "K 7",
+        "glide_ratio": "27",
+        "vg": "45"
+    },
+    {
+        "make": "Blanik",
+        "model": "L-13",
+        "glide_ratio": "28",
+        "vg": "42"
+    },
+    {
+        "make": "Stemme",
+        "model": "S10",
+        "glide_ratio": "50",
+        "vg": "58"
+    }      
 ]

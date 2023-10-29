@@ -109,8 +109,8 @@ def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polyg
                 popup=f"{name}\nType: {type}\nArrival Alt: {arrival_altitude}ft\nLocation Alt: {arrival_altitude-1500}ft\nDescription: {description}",
                 icon=folium.Icon(icon="plane-arrival", prefix='fa')
             ).add_to(m)
-            # Only calculate the polygon rings for altitudes at least 2,000 feet above arrival altitude
-            if altitude >= arrival_altitude + 2000:
+            # Only calculate the polygon rings for altitudes above arrival altitude
+            if altitude >= arrival_altitude:
                 polygon_points = []
                 for heading in range(0, 360, 10):
                     range_nm = glide_range(altitude, arrival_altitude, glide_ratio, safety_margin, Vg, wind_speed, wind_direction, heading)
@@ -271,7 +271,8 @@ def map_page():
             9000, 
             11000, 
             13000, 
-            15000
+            15000,
+            18000
             ]
 
     center_locations =[]
