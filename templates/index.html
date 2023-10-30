@@ -23,9 +23,30 @@
             }
         });
 
-        // Handle "Select All" button click
+        // Event handler for when a row is selected
+        table.on('select', function (e, dt, type, indexes) {
+            if (type === 'row') {
+                // Check the total number of selected rows
+                var selectedRows = table.rows({ selected: true }).count();
+                if (selectedRows > 100) {
+                    // Deselect the last selected row if the count exceeds 100
+                    table.rows(indexes).deselect();
+                    alert('You cannot select more than 100 rows.');
+                }
+            }
+        });
+
+        // Modify the selectAllBtn click event to respect the limit
         $("#selectAllBtn").click(function() {
-            table.rows().select();
+            var selectedRows = table.rows({ selected: true }).count();
+            var visibleRows = table.rows({ page: 'current', search: 'applied' }).count();
+            var selectableRows = 100 - selectedRows;
+            if (visibleRows > selectableRows) {
+                table.rows({ page: 'current', search: 'applied' }).deselect();
+                table.rows({ page: 'current', search: 'applied' }).slice(0, selectableRows).select();
+            } else {
+                table.rows({ page: 'current', search: 'applied' }).select();
+            }
         });
 
         // Handle "Deselect All" button click
@@ -253,7 +274,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <button id="selectAllBtn" type="button" class="btn btn-secondary mt-3">Select All</button>
+            <button id="selectAllBtn" type="button" class="btn btn-secondary mt-3">Select Visible Rows</button>
             <button id="deselectAllBtn" type="button" class="btn btn-secondary mt-3">Deselect All</button>
             <input type="submit" class="btn btn-primary mt-3" value="Create Map">
         </form>
