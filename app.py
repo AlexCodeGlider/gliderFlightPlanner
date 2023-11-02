@@ -272,7 +272,7 @@ def map_page():
             11000, 
             13000, 
             15000,
-            18000
+            17000
             ]
 
     center_locations =[]
