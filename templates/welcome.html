@@ -2,18 +2,20 @@
 
 {% block content %}
 <div class="container">
-    <h1>Welcome to the Glider Flight Planner!</h1>
-    <p class="lead">This application allows you to plan your glider flights by selecting landing locations and inputting flight parameters and wind conditions.</p>
-    <p class="lead">The resulting high resolution map shows minimum altitude countour rings based on the selected flight parameters. You can overlay the countour rings on top of satellite imagery, topographic maps and FAA sectional charts.</p>
-    <p class="lead">This tool is intended solely as a ground planning tool. Use it as part of your pre-flight.</p>
-    <p class="lead">If you'd like to have a landing location added to the list of available locations, please <a href="{{ url_for('contact_us') }}">contact us</a> with the location details.</p>
-    <p class="lead">To get started, please read the <a href="{{ url_for('user_guide') }}">User Guide</a> and <a href="{{ url_for('disclaimer') }}">Disclaimer</a>.</p>
+    <h1>Welcome to Glider Flight Planner</h1>
+    <p class="lead">Plan your flights with ease and precision:</p>
+    <ul class="lead">
+        <li>Select landing locations and set flight parameters.</li>
+        <li>View high-resolution maps with minimum altitude contour rings.</li>
+        <li>Overlay contours on satellite imagery, topographic maps, and FAA sectional charts.</li>
+    </ul>
+    <p class="lead">Remember, this tool is for pre-flight ground planning only. Always ensure to cross-check with other flight planning resources.</p>
+    <p class="lead">To suggest new landing locations, <a href="{{ url_for('contact_us') }}">contact us</a>. Start by reading our <a href="{{ url_for('user_guide') }}">User Guide</a> and <a href="{{ url_for('disclaimer') }}">Disclaimer</a>.</p>
 
-    
     <!-- Display screenshots and app features -->
     <div class="screenshots">
-        <img src="{{ url_for('static', filename='Screenshot1.png') }}" alt="Screenshot 1">
-        <img src="{{ url_for('static', filename='Screenshot2.png') }}" alt="Screenshot 2">
+        <img src="{{ url_for('static', filename='Screenshot1.png') }}" alt="Flight Planner Screenshot 1">
+        <img src="{{ url_for('static', filename='Screenshot2.png') }}" alt="Flight Planner Screenshot 2">
         <!-- Add more screenshots as needed -->
     </div>
     
@@ -21,25 +23,17 @@
         <div class="form-check mt-3">
             <input class="form-check-input" type="checkbox" name="agree_terms" id="agree_terms">
             <label class="form-check-label" for="agree_terms">
-                I agree to the <a href="{{ url_for('terms_of_service') }}">Terms and Conditions</a> of use.
+                I have read and agree to the <a href="{{ url_for('terms_of_service') }}">Terms and Conditions</a>.
             </label>
         </div>
-        <button type="submit" class="btn btn-primary my-3" id="submit_button">Proceed to Flight Planner</button>
+        <button type="submit" class="btn btn-primary my-3" id="submit_button" disabled>Proceed to Flight Planner</button>
     </form>
 </div>
 
-<!-- Add this script tag to the head section of your HTML file -->
 <script>
-    // Get the checkbox and submit button elements
-    const agreeTermsCheckbox = document.getElementById('agree_terms');
-    const submitButton = document.getElementById('submit_button');
-
-    // Disable the submit button by default
-    submitButton.disabled = true;
-
-    // Add an event listener to the checkbox to enable/disable the submit button
-    agreeTermsCheckbox.addEventListener('change', function() {
-        submitButton.disabled = !agreeTermsCheckbox.checked;
+    // Script to enable the submit button when terms are agreed to
+    document.getElementById('agree_terms').addEventListener('change', function() {
+        document.getElementById('submit_button').disabled = !this.checked;
     });
 </script>
 
