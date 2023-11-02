@@ -93,7 +93,7 @@ def haversine(lon1, lat1, d, brng):
 
     return [lat2, lon2]
 
-def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polygon_altitudes):
+def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polygon_altitudes, arrival_altitude_agl):
     m = folium.Map(location=[lat1, lon1], tiles=None, zoom_start=10)
     folium.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Satellite', overlay=False, control=True).add_to(m)
     folium.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', attr='Esri', name='Topographic', overlay=False, control=True).add_to(m)
@@ -103,17 +103,17 @@ def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polyg
     for altitude in polygon_altitudes:
         polygons_points = []
 
-        for lat, lon, polygon_altitude, wind_speed, wind_direction, arrival_altitude, name, type, description in center_locations:
+        for lat, lon, polygon_altitude, wind_speed, wind_direction, arrival_altitude_msl, name, type, description in center_locations:
             folium.Marker(
                 location=[lat, lon],
-                popup=f"{name}\nType: {type}\nArrival Alt: {arrival_altitude}ft\nLocation Alt: {arrival_altitude-1500}ft\nDescription: {description}",
+                popup=f"{name}\nType: {type}\nArrival Alt: {arrival_altitude_msl}ft\nLocation Alt: {arrival_altitude_msl-arrival_altitude_agl}ft\nDescription: {description}",
                 icon=folium.Icon(icon="plane-arrival", prefix='fa')
             ).add_to(m)
             # Only calculate the polygon rings for altitudes above arrival altitude
-            if altitude >= arrival_altitude:
+            if altitude >= arrival_altitude_msl:
                 polygon_points = []
                 for heading in range(0, 360, 10):
-                    range_nm = glide_range(altitude, arrival_altitude, glide_ratio, safety_margin, Vg, wind_speed, wind_direction, heading)
+                    range_nm = glide_range(altitude, arrival_altitude_msl, glide_ratio, safety_margin, Vg, wind_speed, wind_direction, heading)
                     new_point = haversine(lon, lat, range_nm, heading)
                     polygon_points.append(new_point)
 
@@ -255,7 +255,7 @@ def map_page():
     selected_rows = ast.literal_eval(selected_rows_str)
     wind_direction = float(request.args.get('wind_direction'))
     wind_speed = float(request.args.get('wind_speed'))
-    arrival_altitude = float(request.args.get('arrival_altitude'))
+    arrival_altitude_agl = float(request.args.get('arrival_altitude'))
     ring_spacing = request.args.get('ring_spacing')
     
     # Retrieve dynamic form fields
@@ -294,7 +294,7 @@ def map_page():
                         float(polygon_altitude), 
                         wind_speed, 
                         wind_direction,
-                        float(row['Altitude']) + 1500, # Add 1,500 feet to the center location altitude to account for the arrival altitude
+                        float(row['Altitude']) + arrival_altitude_agl, # Add arrival altitude AGL to the center location altitude
                         row['Name'],
                         row['Type'],
                         row['Description']
@@ -314,7 +314,7 @@ def map_page():
                     float(polygon_altitude),
                     wind_speed,
                     wind_direction,
-                    float(altitudes[i]) + 1500,  # Add 1,500 feet to the center location altitude
+                    float(altitudes[i]) + arrival_altitude_agl,  # Add arrival altitude AGL to the center location altitude
                     location_names[i],
                     "A",  # Type for custom locations
                     "User-defined location"  # Description for custom locations
@@ -347,7 +347,8 @@ def map_page():
         safety_margin,
         vg,
         center_locations,
-        polygon_altitudes
+        polygon_altitudes,
+        arrival_altitude_agl
         ) 
 
     return render_template("map.html", map_html=map_html)
