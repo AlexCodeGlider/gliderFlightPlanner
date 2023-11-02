@@ -217,6 +217,8 @@ def index():
         altitudes = request.form.getlist('altitude[]')
         latitudes = request.form.getlist('latitude[]')
         longitudes = request.form.getlist('longitude[]')
+        arrival_altitude = float(request.form['arrivalAltitude'])
+        ring_spacing = request.form['ringSpacingSelection']
 
         # Create a form data dictionary
         form_data = {
@@ -229,7 +231,9 @@ def index():
             'location_names': location_names,
             'altitudes': altitudes,
             'latitudes': latitudes,
-            'longitudes': longitudes
+            'longitudes': longitudes,
+            'arrival_altitude': arrival_altitude,
+            'ring_spacing': ring_spacing
         }
         
         return redirect(url_for('map_page', **form_data))
@@ -251,6 +255,8 @@ def map_page():
     selected_rows = ast.literal_eval(selected_rows_str)
     wind_direction = float(request.args.get('wind_direction'))
     wind_speed = float(request.args.get('wind_speed'))
+    arrival_altitude = float(request.args.get('arrival_altitude'))
+    ring_spacing = request.args.get('ring_spacing')
     
     # Retrieve dynamic form fields
     location_names = request.args.getlist('location_names')
@@ -264,16 +270,17 @@ def map_page():
         for row in reader:
             data.append(row)
     
-    polygon_altitudes = [
-            3000, 
-            5000, 
-            7000, 
-            9000, 
-            11000, 
-            13000, 
-            15000,
-            17000
-            ]
+    # Define the altitude range
+    min_altitude = 2000
+    max_altitude = 18000
+
+    if ring_spacing == 'thousands':
+        polygon_altitudes = np.arange(min_altitude, max_altitude + 1000, 1000)
+    elif ring_spacing == 'evenThousands':
+        polygon_altitudes = np.arange(min_altitude, max_altitude + 1000, 2000)
+    elif ring_spacing == 'oddThousands':
+        # Start from the first odd thousand (3000) since 2000 is even
+        polygon_altitudes = np.arange(min_altitude + 1000, max_altitude + 1000, 2000)
 
     center_locations =[]
 
