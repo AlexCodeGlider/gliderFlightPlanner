@@ -223,14 +223,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="safetyMargin">Safety Margin over best L/D (%):</label>
-                        <input type="number" class="form-control" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" placeholder="e.g., 50" required>
+                        <input type="number" class="form-control" id="safetyMargin" name="safetyMargin" min="0" max="100" step="1" value="50" required>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="arrivalAltitude">Arrival Altitude AGL (ft):</label>
-                        <input type="number" class="form-control" id="arrivalAltitude" name="arrivalAltitude" min="1000" max="2000" placeholder="e.g., 1500" required>
+                        <input type="number" class="form-control" id="arrivalAltitude" name="arrivalAltitude" min="1000" max="2000" value="1500" required>
                     </div>
                 </div>
 
@@ -240,7 +240,7 @@
                         <select class="form-control" id="ringSpacingSelection" name="ringSpacingSelection">
                             <option value="thousands">Thousand feet MSL</option>
                             <option value="evenThousands">Even Thousand feet MSL</option>
-                            <option value="oddThousands">Odd Thousand feet MSL</option>
+                            <option value="oddThousands" selected>Odd Thousand feet MSL</option>
                         </select>
                     </div>
                 </div>

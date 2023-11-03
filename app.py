@@ -109,8 +109,8 @@ def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polyg
                 popup=f"{name}\nType: {type}\nArrival Alt: {arrival_altitude_msl}ft\nLocation Alt: {arrival_altitude_msl-arrival_altitude_agl}ft\nDescription: {description}",
                 icon=folium.Icon(icon="plane-arrival", prefix='fa')
             ).add_to(m)
-            # Only calculate the polygon rings for altitudes above arrival altitude
-            if altitude >= arrival_altitude_msl:
+            # Only calculate the polygon rings for altitudes above arrival altitude and the location type is not a turnpoint
+            if altitude >= arrival_altitude_msl and type != "T":
                 polygon_points = []
                 for heading in range(0, 360, 10):
                     range_nm = glide_range(altitude, arrival_altitude_msl, glide_ratio, safety_margin, Vg, wind_speed, wind_direction, heading)
