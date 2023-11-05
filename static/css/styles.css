@@ -47,3 +47,33 @@ footer a:hover {
     max-width: 55%; /* Adjust this value as needed to resize the images */
     height: auto; /* Maintains the aspect ratio of the images */
 }
+
+#locationsTable td {
+    white-space: normal; /* Allows text to wrap */
+}
+
+/* This CSS will apply when the screen width is less than 768 pixels */
+@media (max-width: 767px) {
+    /* Assuming your table has an ID of 'locationsTable' */
+    #locationsTable {
+        width: 100% !important; /* Make sure the table itself is full width */
+    }
+
+    /* Target the 'Name' column (column 1) */
+    #locationsTable td:nth-child(2),
+    #locationsTable th:nth-child(2) {
+        width: 30%; /* Adjust the width as needed */
+    }
+
+    /* Target the 'Altitude' column (column 2) */
+    #locationsTable td:nth-child(3),
+    #locationsTable th:nth-child(3) {
+        width: 20%; /* Adjust the width as needed */
+    }
+
+    /* Target the 'Type' column (column 5) */
+    #locationsTable td:nth-child(6),
+    #locationsTable th:nth-child(6) {
+        width: 25%; /* Adjust the width as needed */
+    }
+}
