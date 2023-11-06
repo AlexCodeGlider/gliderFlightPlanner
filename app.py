@@ -133,7 +133,7 @@ def plot_map(lat1, lon1, glide_ratio, safety_margin, Vg, center_locations, polyg
                 # Draw the merged polygon on the map
                 folium.Polygon(locations=merged_polygon_points, color='blue', fill=False).add_to(m)
 
-                label_locs = [0, 9, 18, 27] # bearing of the label locations
+                label_locs = [1, 10, 19, 28] # bearing of the label locations
                 for loc in label_locs:
                     # Add a label with the altitude at the label locations
                     folium.Marker(

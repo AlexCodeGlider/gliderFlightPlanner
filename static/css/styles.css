@@ -53,7 +53,7 @@ footer a:hover {
 }
 
 /* This CSS will apply when the screen width is less than 768 pixels */
-@media (max-width: 767px) {
+@media (max-width: 576px) {
     /* Assuming your table has an ID of 'locationsTable' */
     #locationsTable {
         width: 100% !important; /* Make sure the table itself is full width */

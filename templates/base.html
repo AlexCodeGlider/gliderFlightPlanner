@@ -42,6 +42,31 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
         <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
+        <style>
+            .footer-links li {
+                display: inline;
+                padding-right: 10px;
+            }
+            /* This targets the responsive detail rows */
+            table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before,
+            table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before {
+                content: "+"; /* This is required for the pseudo-element to appear */
+                /* position: absolute; */
+                top: 75%;
+                left: 3%;
+                transform: translateY(-50%); 
+                color: #000;
+                background-color: #fff;
+                padding: 1px; 
+                border: 1px solid #ddd;
+                border-radius: 50%;
+                width: 10px;
+                height: 10px;
+                text-align: center;
+                line-height: 10px;
+                font-size: 14px;
+            }
+        </style>
     
         <link rel="stylesheet" href="/static/css/styles.css"> 
     </head>

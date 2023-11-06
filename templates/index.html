@@ -5,6 +5,28 @@
 <!-- Define glidersData first -->
 <script>
     var glidersData = {{ gliders_json | safe }};
+    // Order the gliders alphabetically by make and model
+    glidersData.sort(function(a, b) {
+        var makeA = a.make.toUpperCase();
+        var makeB = b.make.toUpperCase();
+        if (makeA < makeB) {
+            return -1;
+        }
+        if (makeA > makeB) {
+            return 1;
+        }
+        // Make is the same, sort by model
+        var modelA = a.model.toUpperCase();
+        var modelB = b.model.toUpperCase();
+        if (modelA < modelB) {
+            return -1;
+        }
+        if (modelA > modelB) {
+            return 1;
+        }
+        // Make and model are the same, sort by glide ratio
+        return 0;
+    });
 </script>
 
 <script>
@@ -183,19 +205,19 @@
         const newRow = document.createElement('div');
         newRow.classList.add('fieldRow', 'row', 'mb-3');
         newRow.innerHTML = `
-            <div class="col">
+            <div class="col-sm-12 col-md">
                 <input type="text" class="form-control" name="locationName[]" placeholder="Location Name">
             </div>
-            <div class="col">
+            <div class="col-sm-12 col-md">
                 <input type="number" class="form-control" name="altitude[]" placeholder="Altitude">
             </div>
-            <div class="col">
+            <div class="col-sm-12 col-md">
                 <input type="number" class="form-control" name="latitude[]" placeholder="Latitude" step="0.000001">
             </div>
-            <div class="col">
+            <div class="col-sm-12 col-md">
                 <input type="number" class="form-control" name="longitude[]" placeholder="Longitude" step="0.000001">
             </div>
-            <div class="col-auto">
+            <div class="col-sm-12 col-md-auto">
                 <button type="button" class="btn btn-danger" onclick="removeField(this)">-</button>
             </div>
         `;
@@ -302,23 +324,7 @@
             <h3>Step 2: Enter Custom Locations (Optional)</h3>
             <p>Add any specific landing locations you wish to include in your flight plan.</p>            
             <div id="dynamicFieldContainer">
-                <div class="fieldRow row mb-3">
-                    <div class="col">
-                        <input type="text" class="form-control" name="locationName[]" placeholder="Location Name">
-                    </div>
-                    <div class="col">
-                        <input type="number" class="form-control" name="altitude[]" placeholder="Altitude">
-                    </div>
-                    <div class="col">
-                        <input type="number" class="form-control" name="latitude[]" placeholder="Latitude" step="0.000001">
-                    </div>
-                    <div class="col">
-                        <input type="number" class="form-control" name="longitude[]" placeholder="Longitude" step="0.000001">
-                    </div>
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-danger" onclick="removeField(this)">-</button>
-                    </div>
-                </div>
+                <!-- Initially empty, no form rows -->
             </div>
             <button type="button" class="btn btn-primary mb-3" onclick="addField()">
                 <i class="fas fa-plus-circle mr-2"></i>Add Location
