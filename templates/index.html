@@ -5,28 +5,6 @@
 <!-- Define glidersData first -->
 <script>
     var glidersData = {{ gliders_json | safe }};
-    // Order the gliders alphabetically by make and model
-    glidersData.sort(function(a, b) {
-        var makeA = a.make.toUpperCase();
-        var makeB = b.make.toUpperCase();
-        if (makeA < makeB) {
-            return -1;
-        }
-        if (makeA > makeB) {
-            return 1;
-        }
-        // Make is the same, sort by model
-        var modelA = a.model.toUpperCase();
-        var modelB = b.model.toUpperCase();
-        if (modelA < modelB) {
-            return -1;
-        }
-        if (modelA > modelB) {
-            return 1;
-        }
-        // Make and model are the same, sort by glide ratio
-        return 0;
-    });
 </script>
 
 <script>
@@ -62,7 +40,7 @@
                     "width": "10%",
                     "responsivePriority": 3,
                     "render": function ( data, type, row, meta ) {
-                        return data + '°';
+                        return parseFloat(data).toFixed(4) + '°';
                     }
                 },
                 {
@@ -70,7 +48,7 @@
                     "width": "10%",
                     "responsivePriority": 3,
                     "render": function ( data, type, row, meta ) {
-                        return data + '°';
+                        return parseFloat(data).toFixed(4) + '°';
                     }
                 },
                 {
@@ -81,12 +59,23 @@
                 },
                 {
                     "targets": [ 6 ],
-                    "width": "10%",
+                    "width": "5%",
                     "responsivePriority": 2
                 },
                 {
                     "targets": [ 7 ],
-                    "width": "10%",
+                    "width": "5%",
+                    "responsivePriority": 2
+                },
+                {
+                    "targets": [ 8 ],
+                    "width": "5%",
+                    "maxWidth": "50px",
+                    "responsivePriority": 2
+                },
+                {
+                    "targets": [ 9 ],
+                    "width": "5%",
                     "responsivePriority": 2
                 }
             ],
@@ -345,6 +334,8 @@
                         <th>Longitude</th>
                         <th>Type</th>
                         <th>Description</th>
+                        <th>County</th>
+                        <th>State</th>
                         <th>Category</th>
                     </tr>
                 </thead>
@@ -358,6 +349,8 @@
                         <td>{{ row.Long }}</td>
                         <td>{{ row.Type }}</td>
                         <td>{{ row.Description }}</td>
+                        <td>{{ row.County }}</td>
+                        <td>{{ row.State }}</td>
                         <td>{{ row.Category }}</td>
                     </tr>
                     {% endfor %}

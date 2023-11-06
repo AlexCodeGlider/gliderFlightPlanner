@@ -181,7 +181,7 @@ def index():
     }
 
     # Load data from CSV
-    with open('data/Crystal23.csv', 'r') as file:
+    with open('data/enriched_locations.csv', 'r') as file:
         reader = csv.DictReader(file)
         for row in reader:
             # Replace the value in the Type column using the mapping
@@ -191,6 +191,9 @@ def index():
     # Load gliders data from the JSON file
     with open('data/gliders.json', 'r') as file:
         gliders = json.load(file)
+
+    # Sort the gliders alphabetically by make and model
+    gliders.sort(key=lambda glider: glider['make'] + " " + glider['model'])
 
     if request.method == "POST":
         # Extract selected rows from the table
