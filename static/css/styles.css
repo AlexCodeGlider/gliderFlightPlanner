@@ -21,10 +21,11 @@ footer {
 footer ul {
     list-style-type: none;
     padding: 0;
+    margin: 0; /* Reset margin for consistency */
 }
 
 footer li {
-    display: inline;
+    display: inline-block; /* Use inline-block for better control */
     margin: 0 15px;
 }
 
@@ -35,6 +36,14 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    footer li {
+        display: block; /* Stack the links vertically on small screens */
+        margin: 10px 0; /* Add some vertical space between links */
+    }
 }
 
 .screenshots {
