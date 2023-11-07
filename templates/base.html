@@ -74,6 +74,12 @@
     <footer>
         <div class="container">
             <div class="row">
+                {% block redirect_link %}
+                    <!-- Back to Home Link -->
+                    <div class="col-12 mb-3">
+                        <a href="/" class="footer-home-link">Back to Home</a>
+                    </div>
+                {% endblock %}
                 <!-- Links -->
                 <div class="col-md-6">
                     <ul class="footer-links">

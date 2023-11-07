@@ -46,6 +46,28 @@ footer a:hover {
     }
 }
 
+.footer-home-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.footer-home-link:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+    text-decoration: none; /* No underline on hover */
+}
+
+@media (max-width: 768px) {
+    .footer-home-link {
+        margin: 10px auto; /* Center align on small screens */
+    }
+}
+
 .screenshots {
     display: flex;
     justify-content: space-between; /* Distributes space evenly between the images */
