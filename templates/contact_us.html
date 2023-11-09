@@ -1,15 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
 <div class="container">
     <h1>Contact Us</h1>
     <p>If you have any questions, feedback, or concerns, please use the form below to get in touch with us. We'll do our best to respond as soon as possible.</p>
