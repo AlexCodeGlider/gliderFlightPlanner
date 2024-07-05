@@ -95,6 +95,8 @@ def index():
         longitudes = request.form.getlist('longitude[]')
         arrival_altitude = float(request.form['arrivalAltitude'])
         ring_spacing = request.form['ringSpacingSelection']
+        ring_start_alt = request.form['ringStartAlt']
+        ring_end_alt = request.form['ringEndAlt']
 
         # Create a form data dictionary
         form_data = {
@@ -109,7 +111,9 @@ def index():
             'latitudes': latitudes,
             'longitudes': longitudes,
             'arrival_altitude': arrival_altitude,
-            'ring_spacing': ring_spacing
+            'ring_spacing': ring_spacing,
+            'ring_start_alt': ring_start_alt,
+            'ring_end_alt': ring_end_alt
         }
         
         return redirect(url_for('map_page', **form_data))
@@ -133,6 +137,8 @@ def map_page():
     wind_speed = float(request.args.get('wind_speed'))
     arrival_altitude_agl = float(request.args.get('arrival_altitude'))
     ring_spacing = request.args.get('ring_spacing')
+    ring_start_alt = int(request.args.get('ring_start_alt'))
+    ring_end_alt = int(request.args.get('ring_end_alt'))
     
     # Retrieve dynamic form fields
     location_names = request.args.getlist('location_names')
@@ -146,17 +152,19 @@ def map_page():
         for row in reader:
             data.append(row)
     
-    # Define the altitude range
-    min_altitude = 2000
-    max_altitude = 18000
-
     if ring_spacing == 'thousands':
-        polygon_altitudes = np.arange(min_altitude, max_altitude + 1000, 1000)
+       polygon_altitudes = np.arange( ring_start_alt ,  ring_end_alt + 1000 , 1000)
     elif ring_spacing == 'evenThousands':
-        polygon_altitudes = np.arange(min_altitude, max_altitude + 1000, 2000)
+        if (ring_start_alt/2000 == int(ring_start_alt/2000)):
+            polygon_altitudes = np.arange(ring_start_alt,ring_end_alt + 2000, 2000)
+        else:
+            polygon_altitudes = np.arange(ring_start_alt + 1000,ring_end_alt + 1000, 2000)
     elif ring_spacing == 'oddThousands':
         # Start from the first odd thousand (3000) since 2000 is even
-        polygon_altitudes = np.arange(min_altitude + 1000, max_altitude + 1000, 2000)
+        if (ring_start_alt/2000 == int(ring_start_alt/2000)):
+            polygon_altitudes = np.arange(ring_start_alt + 1000, ring_end_alt + 1000, 2000)
+        else:
+            polygon_altitudes = np.arange(ring_start_alt , ring_end_alt + 1000, 2000)
 
     center_locations =[]
 

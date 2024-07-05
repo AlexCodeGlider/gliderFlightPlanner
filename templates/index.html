@@ -21,6 +21,18 @@
 </script>
 
 <script>
+    function ring_altitudes(alt_list, start, end, defaultAlt) {
+       for (let i = start; i <= end; i = i + 1000) {
+          var option = document.createElement("option");
+          if (i == defaultAlt){option.selected = true;}
+          option.value = i;
+          option.text = i;
+          alt_list.add(option);
+      };
+   }
+</script>
+
+<script>
     $(document).ready( function () {
         var table = $('#locationsTable').DataTable({
             "responsive": true,
@@ -148,6 +160,11 @@
                     value: value
                 }).appendTo("#flightParametersForm");
             });
+            var startAlt = document.getElementById("ringStartAlt");
+            ring_altitudes(startAlt, 2000, 8000, 3000);
+            var endAlt = document.getElementById("ringEndAlt");
+            ring_altitudes(endAlt, 2000, 18000, 8000);
+    
         });
         var gliderDropdown = document.getElementById("gliderSelection");
         glidersData.forEach(function(glider) {
@@ -319,7 +336,19 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ringStartAlt">Contour Ring Start Altitude:</label>
+                        <input type="number" class="form-control" id="ringStartAlt" name="ringStartAlt" min="1000" max="10000" value="1000" required>
+                    </div>
+                </div>
 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ringEndAlt">Countour Ring End Altitude:</label>
+                        <input type="number" class="form-control" id="ringEndAlt" name="ringEndAlt" min="3000" max="18000" value="18000" required>
+                    </div>
+                </div>
             </div>
 
             <!-- Custom Locations Section -->
